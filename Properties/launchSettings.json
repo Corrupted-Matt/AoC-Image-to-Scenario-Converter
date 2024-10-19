@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AoC Image to Scenario Converter": {
+      "commandName": "Project",
+      "remoteDebugEnabled": false
+    }
+  }
+}

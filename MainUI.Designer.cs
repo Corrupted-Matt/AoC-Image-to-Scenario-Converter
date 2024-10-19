@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             label1 = new Label();
             ModeSelectComboBox = new ComboBox();
             label2 = new Label();
@@ -53,6 +54,8 @@
             label5 = new Label();
             label6 = new Label();
             NameSelection = new TextBox();
+            label7 = new Label();
+            toolTip1 = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PosterizationTrackBar).BeginInit();
             File1SelectBox.SuspendLayout();
@@ -118,6 +121,7 @@
             // 
             // pictureBox1
             // 
+            pictureBox1.InitialImage = null;
             pictureBox1.Location = new Point(525, 15);
             pictureBox1.Margin = new Padding(4, 3, 4, 3);
             pictureBox1.Name = "pictureBox1";
@@ -201,18 +205,18 @@
             // PosterizationTrackBar
             // 
             PosterizationTrackBar.LargeChange = 1;
-            PosterizationTrackBar.Location = new Point(8, 15);
+            PosterizationTrackBar.Location = new Point(7, 22);
             PosterizationTrackBar.Margin = new Padding(4, 3, 4, 3);
             PosterizationTrackBar.Maximum = 7;
             PosterizationTrackBar.Name = "PosterizationTrackBar";
-            PosterizationTrackBar.Size = new Size(492, 45);
+            PosterizationTrackBar.Size = new Size(489, 45);
             PosterizationTrackBar.TabIndex = 16;
             PosterizationTrackBar.Scroll += PosterizationTrackBar_Scroll;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(8, 51);
+            label9.Location = new Point(8, 52);
             label9.Margin = new Padding(4, 0, 4, 0);
             label9.Name = "label9";
             label9.Size = new Size(45, 15);
@@ -222,7 +226,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(422, 51);
+            label10.Location = new Point(421, 52);
             label10.Margin = new Padding(4, 0, 4, 0);
             label10.Name = "label10";
             label10.Size = new Size(75, 15);
@@ -251,7 +255,7 @@
             File2SelectBox.Margin = new Padding(4, 3, 4, 3);
             File2SelectBox.Name = "File2SelectBox";
             File2SelectBox.Padding = new Padding(4, 3, 4, 3);
-            File2SelectBox.Size = new Size(504, 90);
+            File2SelectBox.Size = new Size(504, 80);
             File2SelectBox.TabIndex = 21;
             File2SelectBox.TabStop = false;
             File2SelectBox.Text = "Choose File2";
@@ -259,11 +263,11 @@
             // AdvancedCitiesCheckbox
             // 
             AdvancedCitiesCheckbox.AutoSize = true;
-            AdvancedCitiesCheckbox.Location = new Point(7, 65);
+            AdvancedCitiesCheckbox.Location = new Point(8, 51);
             AdvancedCitiesCheckbox.Name = "AdvancedCitiesCheckbox";
-            AdvancedCitiesCheckbox.Size = new Size(397, 19);
+            AdvancedCitiesCheckbox.Size = new Size(109, 19);
             AdvancedCitiesCheckbox.TabIndex = 28;
-            AdvancedCitiesCheckbox.Text = "Reserve #FF0000 and #FFFF00 for cored and uncored cities respectively";
+            AdvancedCitiesCheckbox.Text = "Advanced cities";
             AdvancedCitiesCheckbox.UseVisualStyleBackColor = true;
             // 
             // PosterizationBox
@@ -275,7 +279,7 @@
             PosterizationBox.Margin = new Padding(4, 3, 4, 3);
             PosterizationBox.Name = "PosterizationBox";
             PosterizationBox.Padding = new Padding(4, 3, 4, 3);
-            PosterizationBox.Size = new Size(504, 69);
+            PosterizationBox.Size = new Size(504, 80);
             PosterizationBox.TabIndex = 22;
             PosterizationBox.TabStop = false;
             PosterizationBox.Text = "Posterization";
@@ -288,7 +292,7 @@
             OutputDestinationBox.Margin = new Padding(4, 3, 4, 3);
             OutputDestinationBox.Name = "OutputDestinationBox";
             OutputDestinationBox.Padding = new Padding(4, 3, 4, 3);
-            OutputDestinationBox.Size = new Size(504, 69);
+            OutputDestinationBox.Size = new Size(504, 70);
             OutputDestinationBox.TabIndex = 23;
             OutputDestinationBox.TabStop = false;
             OutputDestinationBox.Text = "Select Output Destiantion";
@@ -330,11 +334,29 @@
             NameSelection.Size = new Size(299, 23);
             NameSelection.TabIndex = 27;
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.ForeColor = SystemColors.ControlDarkDark;
+            label7.Location = new Point(614, 310);
+            label7.Name = "label7";
+            label7.Size = new Size(230, 15);
+            label7.TabIndex = 28;
+            label7.Text = "Select image to view posterization preview";
+            label7.TextAlign = ContentAlignment.MiddleCenter;
+            label7.Visible = false;
+            // 
+            // toolTip1
+            // 
+            toolTip1.UseAnimation = false;
+            toolTip1.UseFading = false;
+            // 
             // MainUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(929, 611);
+            Controls.Add(label7);
             Controls.Add(NameSelection);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -352,6 +374,7 @@
             Controls.Add(pictureBox1);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            HelpButton = true;
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             Name = "MainUI";
@@ -398,6 +421,8 @@
         private Label label6;
         private TextBox NameSelection;
         private CheckBox AdvancedCitiesCheckbox;
+        private Label label7;
+        private ToolTip toolTip1;
     }
 }
 

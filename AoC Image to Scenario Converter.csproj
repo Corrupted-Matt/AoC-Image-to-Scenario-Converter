@@ -8,26 +8,23 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>Converter.ico</ApplicationIcon>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>
+    <DebugType>embedded</DebugType>
+    <NoWarn />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <NoWarn />
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\AdvancedMode.png" />
-    <None Remove="Resources\BasicMode.png" />
-    <None Remove="Resources\Converter.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Converter.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\AdvancedMode.png" />
-    <EmbeddedResource Include="Resources\BasicMode.png" />
-    <EmbeddedResource Include="Resources\Converter.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +52,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>
