@@ -55,8 +55,8 @@
             label5 = new Label();
             label6 = new Label();
             NameSelection = new TextBox();
-            label7 = new Label();
             toolTip1 = new ToolTip(components);
+            PosterizationPreviewButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PosterizationTrackBar).BeginInit();
             File1SelectBox.SuspendLayout();
@@ -335,29 +335,28 @@
             NameSelection.Size = new Size(299, 23);
             NameSelection.TabIndex = 27;
             // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.ForeColor = SystemColors.ControlDarkDark;
-            label7.Location = new Point(614, 310);
-            label7.Name = "label7";
-            label7.Size = new Size(230, 15);
-            label7.TabIndex = 28;
-            label7.Text = "Select image to view posterization preview";
-            label7.TextAlign = ContentAlignment.MiddleCenter;
-            label7.Visible = false;
-            // 
             // toolTip1
             // 
             toolTip1.UseAnimation = false;
             toolTip1.UseFading = false;
+            // 
+            // PosterizationPreviewButton
+            // 
+            PosterizationPreviewButton.Location = new Point(660, 310);
+            PosterizationPreviewButton.Name = "PosterizationPreviewButton";
+            PosterizationPreviewButton.Size = new Size(138, 49);
+            PosterizationPreviewButton.TabIndex = 28;
+            PosterizationPreviewButton.Text = "Generate posterization preview";
+            PosterizationPreviewButton.UseVisualStyleBackColor = true;
+            PosterizationPreviewButton.Visible = false;
+            PosterizationPreviewButton.Click += PosterizationPreviewButton_Click;
             // 
             // MainUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(929, 611);
-            Controls.Add(label7);
+            Controls.Add(PosterizationPreviewButton);
             Controls.Add(NameSelection);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -423,8 +422,8 @@
         private Label label6;
         private TextBox NameSelection;
         private CheckBox AdvancedCitiesCheckbox;
-        private Label label7;
         private ToolTip toolTip1;
+        private Button PosterizationPreviewButton;
     }
 }
 

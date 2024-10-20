@@ -35,14 +35,14 @@ namespace AoC_Image_to_Scenario_Converter
             File2SelectBox.Visible = false;
             toolTip1.SetToolTip(AdvancedCitiesCheckbox, "Reserve #00FF00 and #FFFF00 for cored and uncored cities respectively");
         }
-        Image[] PosterizedImages = [];
+        Image[]? PosterizedImages;
         public void ModeSelectComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (ModeSelectComboBox.SelectedIndex)
             {
                 case 0:
                     GenButton.Enabled = true;
-                    label7.Visible = false;
+                    PosterizationPreviewButton.Visible = false;
                     label3.Text = "Uses single image with default AoC terrain color-coding to create an empty scenario. \nMost useful for bypassing map size limit.";
                     pictureBox1.Image = Resources.BasicMode;
                     File2SelectBox.Visible = false;
@@ -52,7 +52,7 @@ namespace AoC_Image_to_Scenario_Converter
                     break;
                 case 1:
                     GenButton.Enabled = true;
-                    label7.Visible = false;
+                    PosterizationPreviewButton.Visible = false;
                     label3.Text = "Uses two images to create a scenario with countires.\nTerrain image should use standard AoC color-coding.\nCountries can be painted on top of the terrain image using \none unique color per nation to create the coutries image.\nMost useful if you want to paint countries in your image \neditor of choice instead of the one provided by the game.";
                     pictureBox1.Image = Resources.AdvancedMode;
                     PosterizationBox.Visible = false;
@@ -64,26 +64,25 @@ namespace AoC_Image_to_Scenario_Converter
                 case 2:
                     GenButton.Enabled = true;
                     label3.Text = "Recreates any image in game by placing nations in corresponding colors on a blank map.\n...I really can't come up with a good use case for this one...";
-                    if (Image1Selection.Text != "")
-                    {
-                        label7.Visible = false;
-                        pictureBox1.Image = PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 8 - PosterizationTrackBar.Value));
-                    }
-                    else
-                    {
-                        label7.Visible = true;
-                        pictureBox1.Image = null;
-                    }
                     File2SelectBox.Visible = false;
                     File1SelectBox.Text = "Choose Image:";
                     File1SelectBox.Visible = true;
                     PosterizationBox.Visible = true;
+                    if (PosterizedImages != null)
+                    {
+                        pictureBox1.Image = PosterizedImages[PosterizationTrackBar.Value];
+                    }
+                    else
+                    {
+                        pictureBox1.Image = null;
+                        PosterizationPreviewButton.Visible = true;
+                    }    
                     break;
 
             }
         }
 
-        private async void Image1SelectionBrowse_Click(object sender, EventArgs e)
+        private void Image1SelectionBrowse_Click(object sender, EventArgs e)
         {
             OpenFileDialog Image1SelectionDialog = new()
             {
@@ -92,32 +91,13 @@ namespace AoC_Image_to_Scenario_Converter
             if (Image1SelectionDialog.ShowDialog() == DialogResult.OK)
             {
                 Image1Selection.Text = Image1SelectionDialog.FileName;
-                if (Image1Selection.Text != "" && ModeSelectComboBox.SelectedIndex == 2)
+                if(ModeSelectComboBox.SelectedIndex == 2)
                 {
-                    PosterizationTrackBar.Enabled = false;
-                    label7.Text = "generating posterization preview...";
-                    await Task.Run(() =>
-                    {
-                        PosterizedImages =
-                            [
-                            PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 8)),
-                            PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 7)),
-                            PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 6)),
-                            PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 5)),
-                            PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 4)),
-                            PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 3)),
-                            PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 2)),
-                            PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 1)),
-                            PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 0))
-                            ];
-                    });
-                    PosterizationTrackBar.Enabled = true;
-                    label7.Visible = false;
-                    label7.Text = "Select image to view posterization preview";
-                    pictureBox1.Image = PosterizedImages[PosterizationTrackBar.Value];
+                    pictureBox1.Image = null;
+                    PosterizationPreviewButton.Visible = true;
                 }
+                PosterizedImages = null;
             }
-
         }
 
         private void Image2SelectionBrowse_Click(object sender, EventArgs e)
@@ -141,7 +121,7 @@ namespace AoC_Image_to_Scenario_Converter
 
         private void PosterizationTrackBar_Scroll(object sender, EventArgs e)
         {
-            if (Image1Selection.Text != "")
+            if (PosterizedImages != null)
                 pictureBox1.Image = PosterizedImages[PosterizationTrackBar.Value];
         }
 
@@ -228,6 +208,42 @@ namespace AoC_Image_to_Scenario_Converter
             }
             GenButton.Enabled = true;
             ModeSelectComboBox.Enabled = true;
+        }
+
+        async private void PosterizationPreviewButton_Click(object sender, EventArgs e)
+        {
+            if(Image1Selection.Text != "")
+            {
+                PosterizationTrackBar.Enabled = false;
+                ModeSelectComboBox.Enabled = false;
+                PosterizationPreviewButton.Enabled = false;
+                PosterizationPreviewButton.Text = "Generating preview...";
+                await Task.Run(() =>
+                {
+                    PosterizedImages =
+                        [
+                        PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 8)),
+                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 7)),
+                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 6)),
+                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 5)),
+                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 4)),
+                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 3)),
+                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 2)),
+                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 1)),
+                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 0))
+                        ];
+                });
+                PosterizationPreviewButton.Enabled = true;
+                PosterizationPreviewButton.Visible = false;
+                PosterizationPreviewButton.Text = "Generate posterization preview";
+                PosterizationTrackBar.Enabled = true;
+                ModeSelectComboBox.Enabled = true;
+                pictureBox1.Image = PosterizedImages[PosterizationTrackBar.Value];
+            }
+            else
+            {
+                MessageBox.Show("Select an image first");
+            } 
         }
     }
 }

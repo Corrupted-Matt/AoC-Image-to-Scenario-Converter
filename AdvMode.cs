@@ -28,7 +28,7 @@ namespace AoC_Image_to_Scenario_Converter
             if (AdvCities) citycolors = [Color.FromArgb(255, 0, 0),Color.FromArgb(0,255,0),Color.FromArgb(255,255,0)];
             else citycolors = [Color.FromArgb(255, 0, 0)];
 
-            output.Write($"{{\"version\":\"3.3.4\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
+            output.Write($"{{\"version\":\"3.4.2\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
 
 
             //finding unique colors and creating countires
@@ -49,7 +49,7 @@ namespace AoC_Image_to_Scenario_Converter
 
             foreach (int[] country in countries)
             {
-                output.Write($"{{\"id\":{country[0]},\"name\":\"{country[0]}\",\"destroyed\":false,\"pos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":50,\"color\":{{\"r\":{(float)country[3] / 255},\"g\":{(float)country[4] / 255},\"b\":{(float)country[5] / 255},\"a\":1.0}},\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":0,\"landValue\":0,\"maxArea\":0,\"revoltPercent\":0.0,\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0}}");
+                output.Write($"{{\"id\":{country[0]},\"name\":\"\",\"destroyed\":false,\"pos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":50,\"color\":{{\"r\":{(float)country[3] / 255},\"g\":{(float)country[4] / 255},\"b\":{(float)country[5] / 255},\"a\":1.0}},\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":0,\"landValue\":0,\"maxArea\":0,\"revoltPercent\":0.0,\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0}}");
                 if (country[0] < countries.Count) output.Write(",");
                 progress.Report(country[0] / countries.Count * 5 + 20);
             }
@@ -110,13 +110,14 @@ namespace AoC_Image_to_Scenario_Converter
                 for (int x = 0; x < w; x++)
                 {
                     CurrentRGB = Input1.GetPixel(x, y);
-                    int currentBrightness = (int)(255 * CurrentRGB.GetBrightness());
+                    float currentBrightness = CurrentRGB.GetBrightness();
 
-                    if (currentBrightness <= 25) output.Write("1");
-                    else if (currentBrightness <= 76) output.Write("4");
-                    else if (currentBrightness <= 127) output.Write("3");
-                    else if (currentBrightness <= 178) output.Write("5");
-                    else if (currentBrightness <= 229) output.Write("2");
+                    if (currentBrightness <= 0.061) output.Write("1");
+                    else if (currentBrightness <= 0.161) output.Write("6");
+                    else if (currentBrightness <= 0.3) output.Write("4");
+                    else if (currentBrightness <= 0.5) output.Write("3");
+                    else if (currentBrightness <= 0.7) output.Write("5");
+                    else if (currentBrightness <= 0.9) output.Write("2");
                     else output.Write("0");
                     p++;
                     if (p < w * h) output.Write(",");

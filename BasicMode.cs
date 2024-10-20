@@ -22,20 +22,21 @@ namespace AoC_Image_to_Scenario_Converter
             int p = 0;
             Color CurrentRGB;
 
-            output.Write($"{{\"version\":\"3.3.4\",\"width\":{Input1.Width},\"height\":{Input1.Height},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[],\"cities\":[],\"alliances\":[],\"wars\":[],\"terrain\":[");
+            output.Write($"{{\"version\":\"3.4.2\",\"width\":{Input1.Width},\"height\":{Input1.Height},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[],\"cities\":[],\"alliances\":[],\"wars\":[],\"terrain\":[");
 
             for (int y = h-1; y >= 0; y--)
             {
                 for (int x = 0; x < w; x++)
                 {
                     CurrentRGB = Input1.GetPixel(x, y);
-                    int currentBrightness = (int)(255 * CurrentRGB.GetBrightness());
+                    float currentBrightness = CurrentRGB.GetBrightness();
 
-                    if (currentBrightness <= 25) output.Write("1");
-                    else if (currentBrightness <= 76) output.Write("4");
-                    else if (currentBrightness <= 127) output.Write("3");
-                    else if (currentBrightness <= 178) output.Write("5");
-                    else if (currentBrightness <= 229) output.Write("2");
+                    if (currentBrightness <= 0.061) output.Write("1");
+                    else if (currentBrightness <= 0.161) output.Write("6");
+                    else if (currentBrightness <= 0.3) output.Write("4");
+                    else if (currentBrightness <= 0.5) output.Write("3");
+                    else if (currentBrightness <= 0.7) output.Write("5");
+                    else if (currentBrightness <= 0.9) output.Write("2");
                     else output.Write("0");
                     p++;
                     if (p < w * h) output.Write(",");
