@@ -50,7 +50,16 @@ namespace AoC_Image_to_Scenario_Converter
             }
 
 
-            output.Write("],\"cities\":[],\"alliances\":[],\"wars\":[],\"terrain\":[");
+            output.Write("],\"cities\":[");
+            //creating cities
+            foreach (int[] country in countries)
+            {
+                output.Write($"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]}}}");
+                if (country[0] < countries.Count) output.Write(",");
+            }
+
+
+            output.Write("],\"alliances\":[],\"wars\":[],\"terrain\":[");
             //creating a flat map
             for (int i = 1; i <= w * h; i++)
             {

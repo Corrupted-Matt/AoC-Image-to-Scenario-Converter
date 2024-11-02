@@ -39,8 +39,11 @@ namespace AoC_Image_to_Scenario_Converter
                     if (Input2.GetPixel(x, y) == Color.FromArgb(255,0,0))
                     {
                         CurrentRGB = FindNeighours(Input2, x, y);
-                        countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
-                        id++;
+                        if(CurrentRGB != Color.Black)
+                        {
+                            countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
+                            id++;
+                        }
                     }
 
                 }
@@ -145,6 +148,7 @@ namespace AoC_Image_to_Scenario_Converter
                                 output.Write(country[0]);
                                 break;
                             }
+                            if (country[0] == countries.Count) output.Write("0");
                         }
                     }
                     else

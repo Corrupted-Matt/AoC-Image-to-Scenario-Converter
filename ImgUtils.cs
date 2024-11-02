@@ -76,6 +76,7 @@ namespace AoC_Image_to_Scenario_Converter
                     continue;
                 neighbourcolors.Add(current);
             }
+            if (neighbourcolors.Count == 0) return Color.Black;
             return neighbourcolors.GroupBy(x => x).OrderByDescending(g => g.Count()).First().Key;
         }
     }

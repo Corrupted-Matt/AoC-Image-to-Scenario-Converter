@@ -223,14 +223,14 @@ namespace AoC_Image_to_Scenario_Converter
                     PosterizedImages =
                         [
                         PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 8)),
-                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 7)),
-                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 6)),
-                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 5)),
-                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 4)),
-                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 3)),
-                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 2)),
-                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 1)),
-                    PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 0))
+                        PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 7)),
+                        PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 6)),
+                        PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 5)),
+                        PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 4)),
+                        PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 3)),
+                        PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 2)),
+                        PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 1)),
+                        PosterizeImage((Bitmap)Image.FromFile(Image1Selection.Text), (int)Math.Pow(2, 0))
                         ];
                 });
                 PosterizationPreviewButton.Enabled = true;
