@@ -1,6 +1,7 @@
 # Disclamer: this program is NOT designed for remaking random maps you found on the internet. Don't bother me with whacky results if you attempt this.
 
 This is AoC image to scenario converter, a simple program to assist map and scenario makers in the Ages of Conflict community. This readme contains an in-depth guide to all functions of the program.
+If you have any issues or think you've found a bug, feel free to reach out to me @corruptedmatt on Discord
 
 ## How to use:
 1. download, extract and run the program
