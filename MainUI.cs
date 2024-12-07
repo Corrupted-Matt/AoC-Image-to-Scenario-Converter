@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Resources;
 using AoC_Image_to_Scenario_Converter.Properties;
 using System.Reflection;
+using System.Security.Policy;
 
 
 namespace AoC_Image_to_Scenario_Converter
@@ -76,7 +77,7 @@ namespace AoC_Image_to_Scenario_Converter
                     {
                         pictureBox1.Image = null;
                         PosterizationPreviewButton.Visible = true;
-                    }    
+                    }
                     break;
 
             }
@@ -91,7 +92,7 @@ namespace AoC_Image_to_Scenario_Converter
             if (Image1SelectionDialog.ShowDialog() == DialogResult.OK)
             {
                 Image1Selection.Text = Image1SelectionDialog.FileName;
-                if(ModeSelectComboBox.SelectedIndex == 2)
+                if (ModeSelectComboBox.SelectedIndex == 2)
                 {
                     pictureBox1.Image = null;
                     PosterizationPreviewButton.Visible = true;
@@ -142,22 +143,14 @@ namespace AoC_Image_to_Scenario_Converter
                 case 0:
                     if (Image1Selection.Text != "" && OutputDestination.Text != "" && NameSelection.Text != "")
                     {
-                        try
+                        GenButton.Enabled = false;
+                        ModeSelectComboBox.Enabled = false;
+                        progressBar1.Visible = true;
+                        label5.Visible = true;
+                        await Task.Run(() =>
                         {
-                            GenButton.Enabled = false;
-                            ModeSelectComboBox.Enabled = false;
-                            progressBar1.Visible = true;
-                            label5.Visible = true;
-                            await Task.Run(() =>
-                            {
-                                BasicMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), OutputDestination.Text, NameSelection.Text, progress);
-                            });
-                            MessageBox.Show("Your scenario has been generated");
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message, "An Exception occured:");
-                        }
+                            BasicMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), OutputDestination.Text, NameSelection.Text, progress);
+                        });
                     }
                     else
                         MessageBox.Show("Please provide a name and input/output directories");
@@ -173,7 +166,6 @@ namespace AoC_Image_to_Scenario_Converter
                         {
                             AdvMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), (Bitmap)Image.FromFile(Image2Selection.Text), OutputDestination.Text, NameSelection.Text, AdvancedCitiesCheckbox.Checked, progress);
                         });
-                        MessageBox.Show("Your scenario has been generated");
                     }
                     else
                         MessageBox.Show("Please provide a name and input/output directories");
@@ -181,23 +173,15 @@ namespace AoC_Image_to_Scenario_Converter
                 case 2:
                     if (Image1Selection.Text != "" && OutputDestination.Text != "" && NameSelection.Text != "")
                     {
-                        try
+                        GenButton.Enabled = false;
+                        ModeSelectComboBox.Enabled = false;
+                        progressBar1.Visible = true;
+                        label5.Visible = true;
+                        int ColorChannels = (int)Math.Pow(2, 8 - PosterizationTrackBar.Value);
+                        await Task.Run(() =>
                         {
-                            GenButton.Enabled = false;
-                            ModeSelectComboBox.Enabled = false;
-                            progressBar1.Visible = true;
-                            label5.Visible = true;
-                            int ColorChannels = (int)Math.Pow(2, 8 - PosterizationTrackBar.Value);
-                            await Task.Run(() =>
-                            {
-                                MapArtMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), OutputDestination.Text, NameSelection.Text, ColorChannels, progress);
-                            });
-                            MessageBox.Show("Your scenario has been generated");
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message, "An Exception occured:");
-                        }
+                            MapArtMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), OutputDestination.Text, NameSelection.Text, ColorChannels, progress);
+                        });
                     }
                     else
                         MessageBox.Show("Please provide a name and input/output directories");
@@ -208,11 +192,13 @@ namespace AoC_Image_to_Scenario_Converter
             }
             GenButton.Enabled = true;
             ModeSelectComboBox.Enabled = true;
+            progressBar1.Visible = false;
+            label5.Visible = false;
         }
 
         async private void PosterizationPreviewButton_Click(object sender, EventArgs e)
         {
-            if(Image1Selection.Text != "")
+            if (Image1Selection.Text != "")
             {
                 PosterizationTrackBar.Enabled = false;
                 ModeSelectComboBox.Enabled = false;
@@ -243,7 +229,16 @@ namespace AoC_Image_to_Scenario_Converter
             else
             {
                 MessageBox.Show("Select an image first");
-            } 
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/Corrupted-Matt/AoC-Image-to-Scenario-Converter?tab=readme-ov-file#readme",
+                UseShellExecute = true
+            });
         }
     }
 }

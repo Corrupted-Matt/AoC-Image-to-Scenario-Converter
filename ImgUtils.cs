@@ -63,10 +63,7 @@ namespace AoC_Image_to_Scenario_Converter
                 new Point(x,Math.Min(h,y+1)),
                 new Point(Math.Min(w,x+1),Math.Min(h,y+1)),
                 ];
-            while (neighbours.Contains(target))
-            {
-                neighbours.Remove(target);
-            }
+            while (neighbours.Remove(target)) { }
 
             List<Color> neighbourcolors = [];
             foreach (Point p in neighbours.Distinct())

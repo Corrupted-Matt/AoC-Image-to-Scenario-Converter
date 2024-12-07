@@ -57,6 +57,7 @@
             NameSelection = new TextBox();
             toolTip1 = new ToolTip(components);
             PosterizationPreviewButton = new Button();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PosterizationTrackBar).BeginInit();
             File1SelectBox.SuspendLayout();
@@ -137,7 +138,7 @@
             GenButton.Location = new Point(13, 576);
             GenButton.Margin = new Padding(4, 3, 4, 3);
             GenButton.Name = "GenButton";
-            GenButton.Size = new Size(88, 27);
+            GenButton.Size = new Size(88, 25);
             GenButton.TabIndex = 6;
             GenButton.Text = "Generate";
             GenButton.UseVisualStyleBackColor = true;
@@ -351,11 +352,22 @@
             PosterizationPreviewButton.Visible = false;
             PosterizationPreviewButton.Click += PosterizationPreviewButton_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(11, 545);
+            button1.Name = "button1";
+            button1.Size = new Size(88, 25);
+            button1.TabIndex = 29;
+            button1.Text = "Help";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // MainUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(929, 611);
+            Controls.Add(button1);
             Controls.Add(PosterizationPreviewButton);
             Controls.Add(NameSelection);
             Controls.Add(label6);
@@ -424,6 +436,7 @@
         private CheckBox AdvancedCitiesCheckbox;
         private ToolTip toolTip1;
         private Button PosterizationPreviewButton;
+        private Button button1;
     }
 }
 
