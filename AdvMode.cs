@@ -27,11 +27,12 @@ namespace AoC_Image_to_Scenario_Converter
                 List<int[]> countries = [];
                 List<Color> citycolors;
                 List<Color> UniqueColors = [];
+                List<int> TerrainRaw = [], TerrainValues = [], TerrainAmounts = [], OwnerRaw = [], OwnerValues = [], OwnerAmounts = [];
 
                 if (AdvCities) citycolors = [Color.FromArgb(255, 0, 0), Color.FromArgb(0, 255, 0), Color.FromArgb(255, 255, 0)];
                 else citycolors = [Color.FromArgb(255, 0, 0)];
 
-                output.Write($"{{\"version\":\"3.4.2\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
+                output.Write($"{{\"version\":\"4.0.1\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
 
 
                 //finding unique colors and creating countires
@@ -79,7 +80,11 @@ namespace AoC_Image_to_Scenario_Converter
 
                 foreach (int[] country in countries)
                 {
-                    output.Write($"{{\"id\":{country[0]},\"name\":\"\",\"destroyed\":false,\"pos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":50,\"color\":{{\"r\":{(float)country[3] / 255},\"g\":{(float)country[4] / 255},\"b\":{(float)country[5] / 255},\"a\":1.0}},\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":0,\"landValue\":0,\"maxArea\":0,\"revoltPercent\":0.0,\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0}}");
+                    output.Write($"{{\"id\":{country[0]},\"name\":\"\",\"destroyed\":false,\"pos\":{{\"x\":{country[1]},\"y\":{country[2]}}}," +
+                        $"\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":50,\"flagId\":0," +
+                        $"\"color\":{{\"r\":{(float)country[3] / 255},\"g\":{(float)country[4] / 255},\"b\":{(float)country[5] / 255},\"a\":1.0}}," +
+                        $"\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":0,\"maxArea\":0," +
+                        $"\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0}}");
                     if (country[0] < countries.Count) output.Write(",");
                     progress.Report(country[0] / countries.Count * 5 + 20);
                 }
@@ -91,7 +96,7 @@ namespace AoC_Image_to_Scenario_Converter
                 {
                     foreach (int[] country in countries)
                     {
-                        output.Write($"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]}}},");
+                        mem += $"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]},\"rp\":0}},";
                     }
                     for (int y = h - 1; y >= 0; y--)
                     {
@@ -114,11 +119,11 @@ namespace AoC_Image_to_Scenario_Converter
                                     if (country[0]==countries.Count)
                                         mem += 0;
                                 }
-                                mem += $"}},";
+                                mem += $",\"rp\":0}},";
                             }
                             else if (CurrentRGB == Color.FromArgb(255, 255, 0))
                             {
-                                mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":0}},";
+                                mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":0,\"rp\":0}},";
                             }
                         }
                         progress.Report((h - y) / (double)h * 25 + 25);
@@ -128,14 +133,14 @@ namespace AoC_Image_to_Scenario_Converter
                 {
                     foreach (int[] country in countries)
                     {
-                        output.Write($"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]}}}");
+                        output.Write($"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]},\"rp\":0}}");
                         if (country[0] < countries.Count) output.Write(",");
                     }
                 }
                 output.Write(mem.TrimEnd(','));
-                output.Write("],\"alliances\":[],\"wars\":[],\"terrain\":[");
+                output.Write("],\"alliances\":[],\"wars\":[],\"terrain2\":");
 
-
+                //     !!! FIX THIS FOR 4.0.0 BEFORE RELEASING OR YOU WILL BE HANGED !!!
                 //creating map
                 for (int y = h - 1; y >= 0; y--)
                 {
@@ -144,19 +149,57 @@ namespace AoC_Image_to_Scenario_Converter
                         CurrentRGB = Input1.GetPixel(x, y);
                         float currentBrightness = CurrentRGB.GetBrightness();
 
-                        if (currentBrightness <= 0.061) output.Write("1");
-                        else if (currentBrightness <= 0.161) output.Write("6");
-                        else if (currentBrightness <= 0.3) output.Write("4");
-                        else if (currentBrightness <= 0.5) output.Write("3");
-                        else if (currentBrightness <= 0.7) output.Write("5");
-                        else if (currentBrightness <= 0.9) output.Write("2");
-                        else output.Write("0");
-                        p++;
-                        if (p < w * h) output.Write(",");
+                        if (currentBrightness <= 0.061) TerrainRaw.Add(1);
+                        else if (currentBrightness <= 0.161) TerrainRaw.Add(6);
+                        else if (currentBrightness <= 0.3) TerrainRaw.Add(4);
+                        else if (currentBrightness <= 0.451) TerrainRaw.Add(3);
+                        else if (currentBrightness <= 0.551) TerrainRaw.Add(7);
+                        else if (currentBrightness <= 0.7) TerrainRaw.Add(5);
+                        else if (currentBrightness <= 0.9) TerrainRaw.Add(2);
+                        else TerrainRaw.Add(0);
                     }
-                    progress.Report((h - y) / (double)h * 25 + 50);
+                    progress.Report((h - y) / (double)h * 15 + 50);
                 }
-                output.Write("],\"owner\":[");
+
+                int currentValue = TerrainRaw[0];
+                int currentAmount = 1;
+                for (int n = 0; n < TerrainRaw.Count - 1; n++)
+                {
+                    if (TerrainRaw[n] == TerrainRaw[n + 1])
+                    {
+                        currentAmount++;
+                    }
+                    else
+                    {
+                        TerrainAmounts.Add(currentAmount);
+                        TerrainValues.Add(currentValue);
+                        currentValue = TerrainRaw[n + 1];
+                        currentAmount = 1;
+                    }
+                    progress.Report(n / TerrainRaw.Count * 10 + 65);
+                }
+                TerrainAmounts.Add(currentAmount);
+                TerrainValues.Add(currentValue);
+
+                output.Write("{\"amounts\":[");
+                foreach (int a in TerrainAmounts)
+                {
+                    output.Write(a);
+                    p++;
+                    if (p < TerrainAmounts.Count) output.Write(",");
+                }
+                p = 0;
+
+                output.Write("],\"values\":[");
+                foreach (int v in TerrainValues)
+                {
+                    output.Write(v);
+                    p++;
+                    if (p < TerrainValues.Count) output.Write(",");
+                }
+
+
+                output.Write("]},\"owner2\":");
                 p = 0;
 
                 //assigning ownership
@@ -174,10 +217,10 @@ namespace AoC_Image_to_Scenario_Converter
                                     country[4] == CurrentRGB.G &&
                                     country[5] == CurrentRGB.B)
                                 {
-                                    output.Write(country[0]);
+                                    OwnerRaw.Add(country[0]);
                                     break;
                                 }
-                                if (country[0] == countries.Count) output.Write("0");
+                                if (country[0] == countries.Count) OwnerRaw.Add(0);
                             }
                         }
                         else
@@ -188,19 +231,54 @@ namespace AoC_Image_to_Scenario_Converter
                                     countries[i][4] == CurrentRGB.G &&
                                     countries[i][5] == CurrentRGB.B)
                                 {
-                                    output.Write(countries[i][0]);
+                                    OwnerRaw.Add(countries[i][0]);
                                     break;
                                 }
-                                if (i == countries.Count - 1) output.Write("0");
+                                if (i == countries.Count - 1) OwnerRaw.Add(0);
                             }
                         }
-                        p++;
-                        if (p < w * h) output.Write(",");
                     }
-                    progress.Report((h - y) / (double)h * 25 + 75);
+                    progress.Report((h - y) / (double)h * 15 + 75);
                 }
 
-                output.Write("]}");
+                currentValue = OwnerRaw[0];
+                currentAmount = 1;
+                for (int n = 0; n < OwnerRaw.Count - 1; n++)
+                {
+                    if (OwnerRaw[n] == OwnerRaw[n + 1])
+                    {
+                        currentAmount++;
+                    }
+                    else
+                    {
+                        OwnerAmounts.Add(currentAmount);
+                        OwnerValues.Add(currentValue);
+                        currentValue = OwnerRaw[n + 1];
+                        currentAmount = 1;
+                    }
+                    progress.Report(n / OwnerRaw.Count * 10 + 90);
+                }
+                OwnerAmounts.Add(currentAmount);
+                OwnerValues.Add(currentValue);
+
+                output.Write("{\"amounts\":[");
+                foreach (int a in OwnerAmounts)
+                {
+                    output.Write(a);
+                    p++;
+                    if (p < OwnerAmounts.Count) output.Write(",");
+                }
+                p = 0;
+
+                output.Write("],\"values\":[");
+                foreach (int v in OwnerValues)
+                {
+                    output.Write(v);
+                    p++;
+                    if (p < OwnerValues.Count) output.Write(",");
+                }
+
+                output.Write($"]}},\"occupations\":{{\"amounts\":[{w*h}],\"values\":[0]}},\"terrain\":[],\"owner\":[],\"history\":[]}}");
                 output.Close();
                 progress.Report(100);
 

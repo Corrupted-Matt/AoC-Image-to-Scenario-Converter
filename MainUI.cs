@@ -54,7 +54,9 @@ namespace AoC_Image_to_Scenario_Converter
                 case 1:
                     GenButton.Enabled = true;
                     PosterizationPreviewButton.Visible = false;
-                    label3.Text = "Uses two images to create a scenario with countires.\nTerrain image should use standard AoC color-coding.\nCountries can be painted on top of the terrain image using \none unique color per nation to create the coutries image.\nMost useful if you want to paint countries in your image \neditor of choice instead of the one provided by the game.";
+                    label3.Text = "Uses two images to create a scenario with countires.\nTerrain image should use standard AoC color-coding." +
+                        "\nCountries can be painted on top of the terrain image using \none unique color per nation to create the coutries image." +
+                        "\nMost useful if you want to paint countries in your image \neditor of choice instead of the one provided by the game.";
                     pictureBox1.Image = Resources.AdvancedMode;
                     PosterizationBox.Visible = false;
                     File1SelectBox.Text = "Choose Terrain Image:";

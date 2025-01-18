@@ -24,9 +24,11 @@ namespace AoC_Image_to_Scenario_Converter
                 List<int[]> countries = [];
                 List<Color> UniqueColors = [];
                 Color CurrentRGB;
+                List<int> OwnerRaw = [], OwnerValues = [], OwnerAmounts = [];
 
 
-                output.Write($"{{\"version\":\"3.4.2\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
+
+                output.Write($"{{\"version\":\"4.0.1\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
 
                 //finding unique colors and creating countires
                 for (int y = h - 1; y >= 0; y--)
@@ -46,7 +48,11 @@ namespace AoC_Image_to_Scenario_Converter
 
                 foreach (int[] country in countries)
                 {
-                    output.Write($"{{\"id\":{country[0]},\"name\":\"\",\"destroyed\":false,\"pos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":50,\"color\":{{\"r\":{(float)country[3] / 255},\"g\":{(float)country[4] / 255},\"b\":{(float)country[5] / 255},\"a\":1.0}},\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":0,\"landValue\":0,\"maxArea\":0,\"revoltPercent\":0.0,\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0}}");
+                    output.Write($"{{\"id\":{country[0]},\"name\":\"\",\"destroyed\":false,\"pos\":{{\"x\":{country[1]},\"y\":{country[2]}}}," +
+                        $"\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":50,\"flagId\":0," +
+                        $"\"color\":{{\"r\":{(float)country[3] / 255},\"g\":{(float)country[4] / 255},\"b\":{(float)country[5] / 255},\"a\":1.0}}," +
+                        $"\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":0,\"maxArea\":0," +
+                        $"\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0}}");
                     if (country[0] < countries.Count) output.Write(",");
                     progress.Report(country[0] / countries.Count * 5 + 20);
                 }
@@ -56,45 +62,76 @@ namespace AoC_Image_to_Scenario_Converter
                 //creating cities
                 foreach (int[] country in countries)
                 {
-                    output.Write($"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]}}}");
+                    output.Write($"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]},\"rp\":0}}");
                     if (country[0] < countries.Count) output.Write(",");
                 }
 
 
-                output.Write("],\"alliances\":[],\"wars\":[],\"terrain\":[");
-                //creating a flat map
-                for (int i = 1; i <= w * h; i++)
-                {
-                    output.Write("1");
-                    progress.Report((double)i / (w * h) * 25 + 50);
-                    if (i < w * h) output.Write(",");
-                }
+                output.Write($"],\"alliances\":[],\"wars\":[],\"terrain2\":{{\"amounts\":[{w*h}],\"values\":[1]}}");
 
 
-                output.Write("],\"owner\":[");
+                output.Write(",\"owner2\":");
+                p = 0;
+
                 //assigning ownership
                 for (int y = h - 1; y >= 0; y--)
                 {
                     for (int x = 0; x < w; x++)
                     {
-                        foreach (int[] country in countries)
+                        CurrentRGB = PosterizedInput.GetPixel(x, y);
+                        for (int i = 0; i < countries.Count; i++)
                         {
-                            CurrentRGB = PosterizedInput.GetPixel(x, y);
-                            if (country[3] == CurrentRGB.R &&
-                                country[4] == CurrentRGB.G &&
-                                country[5] == CurrentRGB.B)
+                            if (countries[i][3] == CurrentRGB.R &&
+                                countries[i][4] == CurrentRGB.G &&
+                                countries[i][5] == CurrentRGB.B)
                             {
-                                output.Write(country[0]);
-                                p++;
-                                if (p < w * h) output.Write(",");
+                                OwnerRaw.Add(countries[i][0]);
                                 break;
                             }
+                            if (i == countries.Count - 1) OwnerRaw.Add(0);
                         }
                     }
-                    progress.Report((h - y) / (double)h * 25 + 75);
+                    progress.Report((h - y) / (double)h * 15 + 75);
                 }
 
-                output.Write("]}");
+                int currentValue = OwnerRaw[0];
+                int currentAmount = 1;
+                for (int n = 0; n < OwnerRaw.Count - 1; n++)
+                {
+                    if (OwnerRaw[n] == OwnerRaw[n + 1])
+                    {
+                        currentAmount++;
+                    }
+                    else
+                    {
+                        OwnerAmounts.Add(currentAmount);
+                        OwnerValues.Add(currentValue);
+                        currentValue = OwnerRaw[n + 1];
+                        currentAmount = 1;
+                    }
+                    progress.Report(n / OwnerRaw.Count * 10 + 90);
+                }
+                OwnerAmounts.Add(currentAmount);
+                OwnerValues.Add(currentValue);
+
+                output.Write("{\"amounts\":[");
+                foreach (int a in OwnerAmounts)
+                {
+                    output.Write(a);
+                    p++;
+                    if (p < OwnerAmounts.Count) output.Write(",");
+                }
+                p = 0;
+
+                output.Write("],\"values\":[");
+                foreach (int v in OwnerValues)
+                {
+                    output.Write(v);
+                    p++;
+                    if (p < OwnerValues.Count) output.Write(",");
+                }
+
+                output.Write($"]}},\"occupations\":{{\"amounts\":[{w * h}],\"values\":[0]}},\"terrain\":[],\"owner\":[],\"history\":[]}}");
                 output.Close();
                 progress.Report(100);
 
