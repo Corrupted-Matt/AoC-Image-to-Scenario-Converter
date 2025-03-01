@@ -140,7 +140,6 @@ namespace AoC_Image_to_Scenario_Converter
                 output.Write(mem.TrimEnd(','));
                 output.Write("],\"alliances\":[],\"wars\":[],\"terrain2\":");
 
-                //     !!! FIX THIS FOR 4.0.0 BEFORE RELEASING OR YOU WILL BE HANGED !!!
                 //creating map
                 for (int y = h - 1; y >= 0; y--)
                 {

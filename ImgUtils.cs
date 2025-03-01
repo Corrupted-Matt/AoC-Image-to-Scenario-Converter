@@ -54,14 +54,14 @@ namespace AoC_Image_to_Scenario_Converter
                 [
                 new Point(Math.Max(0,x-1),Math.Max(0,y-1)),
                 new Point(x,Math.Max(0,y-1)),
-                new Point(Math.Min(w,x+1),Math.Max(0,y-1)),
+                new Point(Math.Min(w-1,x+1),Math.Max(0,y-1)),
 
                 new Point(Math.Max(0,x-1),y),
-                new Point(Math.Min(w,x+1),y),
+                new Point(Math.Min(w-1,x+1),y),
 
-                new Point(Math.Max(0,x-1),Math.Min(h,y+1)),
-                new Point(x,Math.Min(h,y+1)),
-                new Point(Math.Min(w,x+1),Math.Min(h,y+1)),
+                new Point(Math.Max(0,x-1),Math.Min(h-1,y+1)),
+                new Point(x,Math.Min(h-1,y+1)),
+                new Point(Math.Min(w-1,x+1),Math.Min(h-1,y+1)),
                 ];
             while (neighbours.Remove(target)) { }
 
