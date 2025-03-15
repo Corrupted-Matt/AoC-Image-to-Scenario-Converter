@@ -48,6 +48,9 @@
             label10 = new Label();
             File1SelectBox = new GroupBox();
             File2SelectBox = new GroupBox();
+            FlagsCheckbox = new CheckBox();
+            OccupationsCheckbox = new CheckBox();
+            CapitalsChackbox = new CheckBox();
             AdvancedCitiesCheckbox = new CheckBox();
             PosterizationBox = new GroupBox();
             OutputDestinationBox = new GroupBox();
@@ -58,12 +61,18 @@
             toolTip1 = new ToolTip(components);
             PosterizationPreviewButton = new Button();
             button1 = new Button();
+            File3SelectBox = new GroupBox();
+            Image3SelectionBrowse = new Button();
+            Image3Selection = new TextBox();
+            toolTip2 = new ToolTip(components);
+            toolTip3 = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PosterizationTrackBar).BeginInit();
             File1SelectBox.SuspendLayout();
             File2SelectBox.SuspendLayout();
             PosterizationBox.SuspendLayout();
             OutputDestinationBox.SuspendLayout();
+            File3SelectBox.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -127,7 +136,7 @@
             pictureBox1.Location = new Point(525, 15);
             pictureBox1.Margin = new Padding(4, 3, 4, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(391, 584);
+            pictureBox1.Size = new Size(391, 686);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
@@ -135,7 +144,7 @@
             // GenButton
             // 
             GenButton.Enabled = false;
-            GenButton.Location = new Point(13, 576);
+            GenButton.Location = new Point(12, 676);
             GenButton.Margin = new Padding(4, 3, 4, 3);
             GenButton.Name = "GenButton";
             GenButton.Size = new Size(88, 25);
@@ -250,6 +259,9 @@
             // 
             // File2SelectBox
             // 
+            File2SelectBox.Controls.Add(FlagsCheckbox);
+            File2SelectBox.Controls.Add(OccupationsCheckbox);
+            File2SelectBox.Controls.Add(CapitalsChackbox);
             File2SelectBox.Controls.Add(AdvancedCitiesCheckbox);
             File2SelectBox.Controls.Add(Image2SelectionBrowse);
             File2SelectBox.Controls.Add(Image2Selection);
@@ -257,19 +269,52 @@
             File2SelectBox.Margin = new Padding(4, 3, 4, 3);
             File2SelectBox.Name = "File2SelectBox";
             File2SelectBox.Padding = new Padding(4, 3, 4, 3);
-            File2SelectBox.Size = new Size(504, 80);
+            File2SelectBox.Size = new Size(504, 85);
             File2SelectBox.TabIndex = 21;
             File2SelectBox.TabStop = false;
             File2SelectBox.Text = "Choose File2";
             // 
+            // FlagsCheckbox
+            // 
+            FlagsCheckbox.AutoSize = true;
+            FlagsCheckbox.Location = new Point(312, 60);
+            FlagsCheckbox.Name = "FlagsCheckbox";
+            FlagsCheckbox.Size = new Size(90, 19);
+            FlagsCheckbox.TabIndex = 31;
+            FlagsCheckbox.Text = "Create Flags";
+            FlagsCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // OccupationsCheckbox
+            // 
+            OccupationsCheckbox.AutoSize = true;
+            OccupationsCheckbox.Location = new Point(207, 60);
+            OccupationsCheckbox.Name = "OccupationsCheckbox";
+            OccupationsCheckbox.Size = new Size(93, 19);
+            OccupationsCheckbox.TabIndex = 30;
+            OccupationsCheckbox.Text = "Occupations";
+            OccupationsCheckbox.UseVisualStyleBackColor = true;
+            OccupationsCheckbox.CheckedChanged += OccupationsCheckbox_CheckedChanged;
+            // 
+            // CapitalsChackbox
+            // 
+            CapitalsChackbox.AutoSize = true;
+            CapitalsChackbox.Location = new Point(7, 60);
+            CapitalsChackbox.Name = "CapitalsChackbox";
+            CapitalsChackbox.Size = new Size(68, 19);
+            CapitalsChackbox.TabIndex = 29;
+            CapitalsChackbox.Text = "Capitals";
+            CapitalsChackbox.UseVisualStyleBackColor = true;
+            CapitalsChackbox.CheckedChanged += CapitalsChackbox_CheckedChanged;
+            // 
             // AdvancedCitiesCheckbox
             // 
             AdvancedCitiesCheckbox.AutoSize = true;
-            AdvancedCitiesCheckbox.Location = new Point(8, 51);
+            AdvancedCitiesCheckbox.Enabled = false;
+            AdvancedCitiesCheckbox.Location = new Point(94, 60);
             AdvancedCitiesCheckbox.Name = "AdvancedCitiesCheckbox";
-            AdvancedCitiesCheckbox.Size = new Size(109, 19);
+            AdvancedCitiesCheckbox.Size = new Size(88, 19);
             AdvancedCitiesCheckbox.TabIndex = 28;
-            AdvancedCitiesCheckbox.Text = "Advanced cities";
+            AdvancedCitiesCheckbox.Text = "Other Cities";
             AdvancedCitiesCheckbox.UseVisualStyleBackColor = true;
             // 
             // PosterizationBox
@@ -290,7 +335,7 @@
             // 
             OutputDestinationBox.Controls.Add(OutputDestinationBrowse);
             OutputDestinationBox.Controls.Add(OutputDestination);
-            OutputDestinationBox.Location = new Point(13, 420);
+            OutputDestinationBox.Location = new Point(12, 520);
             OutputDestinationBox.Margin = new Padding(4, 3, 4, 3);
             OutputDestinationBox.Name = "OutputDestinationBox";
             OutputDestinationBox.Padding = new Padding(4, 3, 4, 3);
@@ -301,7 +346,7 @@
             // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(108, 576);
+            progressBar1.Location = new Point(107, 676);
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(410, 23);
             progressBar1.Style = ProgressBarStyle.Continuous;
@@ -311,7 +356,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(108, 558);
+            label5.Location = new Point(107, 658);
             label5.Name = "label5";
             label5.Size = new Size(106, 15);
             label5.TabIndex = 25;
@@ -322,7 +367,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 238);
-            label6.Location = new Point(11, 510);
+            label6.Location = new Point(10, 610);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(97, 16);
@@ -331,7 +376,7 @@
             // 
             // NameSelection
             // 
-            NameSelection.Location = new Point(115, 503);
+            NameSelection.Location = new Point(114, 603);
             NameSelection.Name = "NameSelection";
             NameSelection.Size = new Size(299, 23);
             NameSelection.TabIndex = 27;
@@ -343,7 +388,7 @@
             // 
             // PosterizationPreviewButton
             // 
-            PosterizationPreviewButton.Location = new Point(660, 310);
+            PosterizationPreviewButton.Location = new Point(655, 345);
             PosterizationPreviewButton.Name = "PosterizationPreviewButton";
             PosterizationPreviewButton.Size = new Size(138, 49);
             PosterizationPreviewButton.TabIndex = 28;
@@ -354,7 +399,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(11, 545);
+            button1.Location = new Point(10, 645);
             button1.Name = "button1";
             button1.Size = new Size(88, 25);
             button1.TabIndex = 29;
@@ -362,11 +407,44 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // File3SelectBox
+            // 
+            File3SelectBox.Controls.Add(Image3SelectionBrowse);
+            File3SelectBox.Controls.Add(Image3Selection);
+            File3SelectBox.Location = new Point(12, 415);
+            File3SelectBox.Name = "File3SelectBox";
+            File3SelectBox.Size = new Size(504, 70);
+            File3SelectBox.TabIndex = 30;
+            File3SelectBox.TabStop = false;
+            File3SelectBox.Text = "Choose De Jure Political Map:";
+            File3SelectBox.Visible = false;
+            // 
+            // Image3SelectionBrowse
+            // 
+            Image3SelectionBrowse.Location = new Point(411, 22);
+            Image3SelectionBrowse.Margin = new Padding(4, 3, 4, 3);
+            Image3SelectionBrowse.Name = "Image3SelectionBrowse";
+            Image3SelectionBrowse.Size = new Size(88, 27);
+            Image3SelectionBrowse.TabIndex = 12;
+            Image3SelectionBrowse.Text = "Browse";
+            Image3SelectionBrowse.UseVisualStyleBackColor = true;
+            Image3SelectionBrowse.Click += Image3SelectionBrowse_Click;
+            // 
+            // Image3Selection
+            // 
+            Image3Selection.AllowDrop = true;
+            Image3Selection.Location = new Point(9, 22);
+            Image3Selection.Margin = new Padding(4, 3, 4, 3);
+            Image3Selection.Name = "Image3Selection";
+            Image3Selection.Size = new Size(394, 23);
+            Image3Selection.TabIndex = 11;
+            // 
             // MainUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(929, 611);
+            ClientSize = new Size(929, 711);
+            Controls.Add(File3SelectBox);
             Controls.Add(button1);
             Controls.Add(PosterizationPreviewButton);
             Controls.Add(NameSelection);
@@ -391,7 +469,7 @@
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             Name = "MainUI";
-            Text = "Image to Scenario Converter v3.1.1";
+            Text = "Image to Scenario Converter v3.2.0";
             Load += MainUI_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)PosterizationTrackBar).EndInit();
@@ -403,6 +481,8 @@
             PosterizationBox.PerformLayout();
             OutputDestinationBox.ResumeLayout(false);
             OutputDestinationBox.PerformLayout();
+            File3SelectBox.ResumeLayout(false);
+            File3SelectBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -437,6 +517,14 @@
         private ToolTip toolTip1;
         private Button PosterizationPreviewButton;
         private Button button1;
+        private CheckBox OccupationsCheckbox;
+        private CheckBox CapitalsChackbox;
+        private GroupBox File3SelectBox;
+        private Button Image3SelectionBrowse;
+        public TextBox Image3Selection;
+        private ToolTip toolTip2;
+        private CheckBox FlagsCheckbox;
+        private ToolTip toolTip3;
     }
 }
 

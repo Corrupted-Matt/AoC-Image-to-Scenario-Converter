@@ -43,7 +43,7 @@ namespace AoC_Image_to_Scenario_Converter
                         else if (currentBrightness <= 0.9) TerrainRaw.Add(2);
                         else TerrainRaw.Add(0);
                     }
-                    progress.Report((h - y) / (double)h * 15 + 50);
+                    progress.Report((h - y) / (double)h * 15 + 40);
                 }
 
                 int currentValue = TerrainRaw[0];
@@ -61,7 +61,7 @@ namespace AoC_Image_to_Scenario_Converter
                         currentValue = TerrainRaw[n+1];
                         currentAmount = 1;
                     }
-                    progress.Report(n / TerrainRaw.Count * 10 + 65);
+                    progress.Report(n / TerrainRaw.Count * 5 + 55);
                 }
                 TerrainAmounts.Add(currentAmount);
                 TerrainValues.Add(currentValue);

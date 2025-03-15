@@ -76,5 +76,30 @@ namespace AoC_Image_to_Scenario_Converter
             if (neighbourcolors.Count == 0) return Color.Black;
             return neighbourcolors.GroupBy(x => x).OrderByDescending(g => g.Count()).First().Key;
         }
+
+        public static Bitmap GetFlags(List<int[]> countries)
+        {
+            Bitmap output = new Bitmap(((countries.Count-1)/10+1)*36,240);
+            foreach (int[] c in countries)
+            {
+                c[0]--;
+            }
+
+            foreach (int[] c in countries)
+            {
+                for (int y = 240 - 24 * (c[0]%10+1); y < 240 - 24 * (c[0]%10); y++)
+                {
+                    for(int x = 36*(c[0] / 10); x<36* (c[0] / 10+1); x++)
+                    {
+                        output.SetPixel(x, y, Color.FromArgb(c[3], c[4], c[5]));
+                    }
+                }
+            }
+            foreach (int[] c in countries)
+            {
+                c[0]++;
+            }
+            return output;
+        }
     }
 }

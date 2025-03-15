@@ -43,7 +43,7 @@ namespace AoC_Image_to_Scenario_Converter
                             id++;
                         }
                     }
-                    progress.Report((h - y) / (double)h * 20);
+                    progress.Report((h - y) / (double)h * 15);
                 }
 
                 foreach (int[] country in countries)
@@ -54,7 +54,7 @@ namespace AoC_Image_to_Scenario_Converter
                         $"\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":0,\"maxArea\":0," +
                         $"\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0}}");
                     if (country[0] < countries.Count) output.Write(",");
-                    progress.Report(country[0] / countries.Count * 5 + 20);
+                    progress.Report(country[0] / countries.Count * 5 + 15);
                 }
 
 
@@ -64,6 +64,7 @@ namespace AoC_Image_to_Scenario_Converter
                 {
                     output.Write($"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]},\"rp\":0}}");
                     if (country[0] < countries.Count) output.Write(",");
+                    progress.Report(country[0] / countries.Count * 20 + 20);
                 }
 
 
@@ -91,7 +92,7 @@ namespace AoC_Image_to_Scenario_Converter
                             if (i == countries.Count - 1) OwnerRaw.Add(0);
                         }
                     }
-                    progress.Report((h - y) / (double)h * 15 + 75);
+                    progress.Report((h - y) / (double)h * 15 + 60);
                 }
 
                 int currentValue = OwnerRaw[0];
@@ -109,7 +110,7 @@ namespace AoC_Image_to_Scenario_Converter
                         currentValue = OwnerRaw[n + 1];
                         currentAmount = 1;
                     }
-                    progress.Report(n / OwnerRaw.Count * 10 + 90);
+                    progress.Report(n / OwnerRaw.Count * 5 + 75);
                 }
                 OwnerAmounts.Add(currentAmount);
                 OwnerValues.Add(currentValue);

@@ -35,6 +35,9 @@ namespace AoC_Image_to_Scenario_Converter
             File1SelectBox.Visible = false;
             File2SelectBox.Visible = false;
             toolTip1.SetToolTip(AdvancedCitiesCheckbox, "Reserve #00FF00 and #FFFF00 for cored and uncored cities respectively");
+            toolTip2.SetToolTip(CapitalsChackbox, "Reserve #FF0000 for capitals, if selected all countries need to have one");
+            toolTip3.SetToolTip(FlagsCheckbox, "Create a flagsheet where each nation gets a blank flag of its map color");
+
         }
         Image[]? PosterizedImages;
         public void ModeSelectComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -59,9 +62,9 @@ namespace AoC_Image_to_Scenario_Converter
                         "\nMost useful if you want to paint countries in your image \neditor of choice instead of the one provided by the game.";
                     pictureBox1.Image = Resources.AdvancedMode;
                     PosterizationBox.Visible = false;
-                    File1SelectBox.Text = "Choose Terrain Image:";
+                    File1SelectBox.Text = "Choose Terrain Map:";
                     File1SelectBox.Visible = true;
-                    File2SelectBox.Text = "Choose Countries Image:";
+                    File2SelectBox.Text = "Choose Political Map:";
                     File2SelectBox.Visible = true;
                     break;
                 case 2:
@@ -113,6 +116,16 @@ namespace AoC_Image_to_Scenario_Converter
                 Image2Selection.Text = Image2SelectionDialog.FileName;
         }
 
+        private void Image3SelectionBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog Image3SelectionDialog = new()
+            {
+                Filter = "Images|*.png"
+            };
+            if (Image3SelectionDialog.ShowDialog() == DialogResult.OK)
+                Image3Selection.Text = Image3SelectionDialog.FileName;
+        }
+
         private void OutputDestinationBrowse_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog DestinationSelectDialog = new();
@@ -134,10 +147,11 @@ namespace AoC_Image_to_Scenario_Converter
                 {
                     progressBar1.Value = (int)value;
                     if (value == 0) label5.Text = "Preparing";
-                    else if (value < 25) label5.Text = "(1 of 4) Creating Countires";
-                    else if (value < 50) label5.Text = "(2 of 4) Creating Cities";
-                    else if (value < 75) label5.Text = "(3 of 4) Creating Map";
-                    else if (value < 100) label5.Text = "(4 of 4) Assigning Ownership";
+                    else if (value < 20) label5.Text = "[1 of 5] Creating Countires";
+                    else if (value < 40) label5.Text = "[2 of 5] Placing Cities";
+                    else if (value < 60) label5.Text = "[3 of 5] Painting Map";
+                    else if (value < 80) label5.Text = "[4 of 5] Assigning Ownership";
+                    else if (value < 100) label5.Text = "[5 of 5] Drawing Occupation Zones";
                     else label5.Text = "Complete!";
                 });
             switch (ModeSelectComboBox.SelectedIndex)
@@ -166,7 +180,7 @@ namespace AoC_Image_to_Scenario_Converter
                         label5.Visible = true;
                         await Task.Run(() =>
                         {
-                            AdvMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), (Bitmap)Image.FromFile(Image2Selection.Text), OutputDestination.Text, NameSelection.Text, AdvancedCitiesCheckbox.Checked, progress);
+                            AdvMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), (Bitmap)Image.FromFile(Image2Selection.Text), (Bitmap)Image.FromFile(Image3Selection.Text), OutputDestination.Text, NameSelection.Text, CapitalsChackbox.Checked, AdvancedCitiesCheckbox.Checked, FlagsCheckbox.Checked, progress);
                         });
                     }
                     else
@@ -241,6 +255,34 @@ namespace AoC_Image_to_Scenario_Converter
                 FileName = "https://github.com/Corrupted-Matt/AoC-Image-to-Scenario-Converter?tab=readme-ov-file#readme",
                 UseShellExecute = true
             });
+        }
+
+        private void OccupationsCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (OccupationsCheckbox.Checked)
+            {
+                File3SelectBox.Visible = true;
+                File2SelectBox.Text = "Choose De Facto Political Map:";
+            }
+            else
+            {
+                File3SelectBox.Visible = false;
+                File2SelectBox.Text = "Choose Political Map:";
+                Image3Selection.Clear();
+            }
+        }
+
+        private void CapitalsChackbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CapitalsChackbox.Checked)
+            {
+                AdvancedCitiesCheckbox.Enabled = true;
+            }
+            else
+            {
+                AdvancedCitiesCheckbox.Enabled = false;
+                AdvancedCitiesCheckbox.Checked = false;
+            }
         }
     }
 }
