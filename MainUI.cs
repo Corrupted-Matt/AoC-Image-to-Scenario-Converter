@@ -154,6 +154,14 @@ namespace AoC_Image_to_Scenario_Converter
                     else if (value < 100) label5.Text = "[5 of 5] Drawing Occupation Zones";
                     else label5.Text = "Complete!";
                 });
+
+            Bitmap Img1 = (Bitmap)Image.FromFile(Image1Selection.Text);
+            Bitmap Img2, Img3;
+            if (Image2Selection.Text != "") Img2 = (Bitmap)Image.FromFile(Image2Selection.Text);
+            else Img2 = null;
+            if (Image3Selection.Text != "") Img3 = (Bitmap)Image.FromFile(Image3Selection.Text);
+            else Img3 = null;
+
             switch (ModeSelectComboBox.SelectedIndex)
             {
                 case 0:
@@ -165,7 +173,7 @@ namespace AoC_Image_to_Scenario_Converter
                         label5.Visible = true;
                         await Task.Run(() =>
                         {
-                            BasicMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), OutputDestination.Text, NameSelection.Text, progress);
+                            BasicMode.Generate(Img1, OutputDestination.Text, NameSelection.Text, progress);
                         });
                     }
                     else
@@ -180,7 +188,7 @@ namespace AoC_Image_to_Scenario_Converter
                         label5.Visible = true;
                         await Task.Run(() =>
                         {
-                            AdvMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), (Bitmap)Image.FromFile(Image2Selection.Text), (Bitmap)Image.FromFile(Image3Selection.Text), OutputDestination.Text, NameSelection.Text, CapitalsChackbox.Checked, AdvancedCitiesCheckbox.Checked, FlagsCheckbox.Checked, progress);
+                            AdvMode.Generate(Img1, Img2, Img3, OutputDestination.Text, NameSelection.Text, CapitalsChackbox.Checked, AdvancedCitiesCheckbox.Checked, FlagsCheckbox.Checked, progress);
                         });
                     }
                     else
@@ -196,7 +204,7 @@ namespace AoC_Image_to_Scenario_Converter
                         int ColorChannels = (int)Math.Pow(2, 8 - PosterizationTrackBar.Value);
                         await Task.Run(() =>
                         {
-                            MapArtMode.Generate((Bitmap)Image.FromFile(Image1Selection.Text), OutputDestination.Text, NameSelection.Text, ColorChannels, progress);
+                            MapArtMode.Generate(Img1, OutputDestination.Text, NameSelection.Text, ColorChannels, progress);
                         });
                     }
                     else
