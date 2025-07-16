@@ -58,7 +58,7 @@ namespace AoC_Image_to_Scenario_Converter
                         for (int x = 0; x < w; x++)
                         {
                             CurrentRGB = PoliticalDF.GetPixel(x, y);
-                            if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || (CurrentRGB.R == CurrentRGB.G && CurrentRGB.R == CurrentRGB.B))
+                            if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
                                 continue;
                             UniqueColors.Add(CurrentRGB);
                         }
@@ -72,7 +72,6 @@ namespace AoC_Image_to_Scenario_Converter
                             if (PoliticalDF.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
                             {
                                 CurrentRGB = FindNeighours(PoliticalDF, x, y);
-                                if (CurrentRGB.R == CurrentRGB.G && CurrentRGB.R == CurrentRGB.B) continue;
                                 countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
                                 while (UniqueColors.Remove(CurrentRGB)) { }
                                 id++;
@@ -102,7 +101,7 @@ namespace AoC_Image_to_Scenario_Converter
                         for (int x = 0; x < w; x++)
                         {
                             CurrentRGB = PoliticalDF.GetPixel(x, y);
-                            if (UniqueColors.Contains(CurrentRGB) || (CurrentRGB.R == CurrentRGB.G && CurrentRGB.R == CurrentRGB.B))
+                            if (UniqueColors.Contains(CurrentRGB) || CurrentRGB.A == 0)
                                 continue;
                             countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
                             UniqueColors.Add(CurrentRGB);

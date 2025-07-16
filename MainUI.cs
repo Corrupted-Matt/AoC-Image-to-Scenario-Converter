@@ -39,7 +39,11 @@ namespace AoC_Image_to_Scenario_Converter
             toolTip3.SetToolTip(FlagsCheckbox, "Create a flagsheet where each nation gets a blank flag of its map color");
 
         }
+
         Image[]? PosterizedImages;
+        readonly Image Basic = Resources.BasicMode;
+        readonly Image Advanced = Resources.AdvancedMode;
+
         public void ModeSelectComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (ModeSelectComboBox.SelectedIndex)
@@ -48,7 +52,7 @@ namespace AoC_Image_to_Scenario_Converter
                     GenButton.Enabled = true;
                     PosterizationPreviewButton.Visible = false;
                     label3.Text = "Uses single image with default AoC terrain color-coding to create an empty scenario. \nMost useful for bypassing map size limit.";
-                    pictureBox1.Image = Resources.BasicMode;
+                    pictureBox1.Image = Basic;
                     File2SelectBox.Visible = false;
                     PosterizationBox.Visible = false;
                     File1SelectBox.Text = "Choose Image:";
@@ -57,10 +61,10 @@ namespace AoC_Image_to_Scenario_Converter
                 case 1:
                     GenButton.Enabled = true;
                     PosterizationPreviewButton.Visible = false;
-                    label3.Text = "Uses two images to create a scenario with countires.\nTerrain image should use standard AoC color-coding." +
-                        "\nCountries can be painted on top of the terrain image using \none unique color per nation to create the coutries image." +
+                    label3.Text = "Uses two images to create a scenario with countires.\nTerrain map should use standard AoC color-coding," +
+                        "\npolitical map(s) must use one unique color per nation\nwith no man's land remaining transparent." +
                         "\nMost useful if you want to paint countries in your image \neditor of choice instead of the one provided by the game.";
-                    pictureBox1.Image = Resources.AdvancedMode;
+                    pictureBox1.Image = Advanced;
                     PosterizationBox.Visible = false;
                     File1SelectBox.Text = "Choose Terrain Map:";
                     File1SelectBox.Visible = true;
