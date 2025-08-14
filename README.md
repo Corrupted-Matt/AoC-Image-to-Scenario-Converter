@@ -19,10 +19,7 @@ Upon selection you need to only provide the terrain image, it works the same as 
 ## Advanced mode
 By far the most complicated of the bunch, made to aid map makers by allowing them to paint countries in their image editing software of choice instead of the in game editor. Unfortunately, I'm not a magician so you have to name countries and cities yourself.
 
-To use it, you need to provide a terrain image that works the same as in basic mode and a second image for countries, which has specific requirements:
-- only 1 unique color per country, regardless of terrain,
-- grayscale (R=G=B) will be ignored,
-- the above means you can paint countries on a copy of the terrain image.
+To use it, you need to provide a terrain image that works the same as in basic mode and a second image for countries. Each country is defined by 1 unique color, with no man's land remaining transparent.
 
 As of 3.2.0 this mode has been expanded to include a bunch of new options:
 ### Capitals
