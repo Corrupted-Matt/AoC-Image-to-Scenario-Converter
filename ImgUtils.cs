@@ -69,17 +69,15 @@ namespace AoC_Image_to_Scenario_Converter
             foreach (Point p in neighbours.Distinct())
             {
                 current = image.GetPixel(p.X, p.Y);
-                if (current.R == current.G && current.R == current.B)
-                    continue;
                 neighbourcolors.Add(current);
             }
-            if (neighbourcolors.Count == 0) return Color.Black;
             return neighbourcolors.GroupBy(x => x).OrderByDescending(g => g.Count()).First().Key;
         }
 
         public static Bitmap GetFlags(List<int[]> countries)
         {
-            Bitmap output = new Bitmap(((countries.Count-1)/10+1)*36,240);
+            int h = Math.Min(countries.Count, 10) * 24;
+            Bitmap output = new Bitmap(((countries.Count-1)/10+1)*36,h);
             foreach (int[] c in countries)
             {
                 c[0]--;
@@ -87,7 +85,7 @@ namespace AoC_Image_to_Scenario_Converter
 
             foreach (int[] c in countries)
             {
-                for (int y = 240 - 24 * (c[0]%10+1); y < 240 - 24 * (c[0]%10); y++)
+                for (int y = h - 24 * (c[0]%10+1); y < h - 24 * (c[0]%10); y++)
                 {
                     for(int x = 36*(c[0] / 10); x<36* (c[0] / 10+1); x++)
                     {
