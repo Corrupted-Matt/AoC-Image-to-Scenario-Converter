@@ -1,22 +1,23 @@
-﻿using System;
+﻿using AoC_Image_to_Scenario_Converter.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
+using System.Resources;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static AoC_Image_to_Scenario_Converter.ImgUtils;
 using static AoC_Image_to_Scenario_Converter.BasicMode;
+using static AoC_Image_to_Scenario_Converter.ImgUtils;
 using static AoC_Image_to_Scenario_Converter.MapArtMode;
-using System.Diagnostics;
-using System.Resources;
-using AoC_Image_to_Scenario_Converter.Properties;
-using System.Reflection;
-using System.Security.Policy;
 
 
 namespace AoC_Image_to_Scenario_Converter
@@ -30,6 +31,8 @@ namespace AoC_Image_to_Scenario_Converter
         }
         public void MainUI_Load(object sender, EventArgs e)
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             PosterizationBox.Visible = false;
             PosterizationBox.Location = new Point(13, 310);
             File1SelectBox.Visible = false;
