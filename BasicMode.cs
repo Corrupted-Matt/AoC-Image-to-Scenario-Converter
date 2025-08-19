@@ -25,7 +25,7 @@ namespace AoC_Image_to_Scenario_Converter
                 Color CurrentRGB;
                 List<int> TerrainRaw = [], TerrainValues = [], TerrainAmounts = [];
 
-                output.Write($"{{\"version\":\"4.0.1\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[],\"cities\":[],\"alliances\":[],\"wars\":[],\"terrain2\":");
+                output.Write($"{{\"version\":\"4.2.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[],\"cities\":[],\"alliances\":[],\"wars\":[],\"terrain2\":");
 
                 for (int y = h - 1; y >= 0; y--)
                 {
@@ -34,11 +34,12 @@ namespace AoC_Image_to_Scenario_Converter
                         CurrentRGB = Input1.GetPixel(x, y);
                         float currentBrightness = CurrentRGB.GetBrightness();
 
-                        if (currentBrightness <= 0.061) TerrainRaw.Add(1);
-                        else if (currentBrightness <= 0.161) TerrainRaw.Add(6);
-                        else if (currentBrightness <= 0.3) TerrainRaw.Add(4);
-                        else if (currentBrightness <= 0.451) TerrainRaw.Add(3);
-                        else if (currentBrightness <= 0.551) TerrainRaw.Add(7);
+                        if (currentBrightness <= 0.06) TerrainRaw.Add(1);
+                        else if (currentBrightness <= 0.16) TerrainRaw.Add(6);
+                        else if (currentBrightness <= 0.25) TerrainRaw.Add(4);
+                        else if (currentBrightness <= 0.35) TerrainRaw.Add(8);
+                        else if (currentBrightness <= 0.45) TerrainRaw.Add(3);
+                        else if (currentBrightness <= 0.55) TerrainRaw.Add(7);
                         else if (currentBrightness <= 0.7) TerrainRaw.Add(5);
                         else if (currentBrightness <= 0.9) TerrainRaw.Add(2);
                         else TerrainRaw.Add(0);

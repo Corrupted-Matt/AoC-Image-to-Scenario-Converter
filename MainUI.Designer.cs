@@ -469,7 +469,7 @@
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             Name = "MainUI";
-            Text = "Image to Scenario Converter v3.3.0";
+            Text = "Image to Scenario Converter v3.4.0";
             Load += MainUI_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)PosterizationTrackBar).EndInit();
