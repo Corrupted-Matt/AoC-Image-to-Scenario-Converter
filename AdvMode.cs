@@ -160,27 +160,30 @@ namespace AoC_Image_to_Scenario_Converter
                                 }
                                 mem += $",\"rp\":0}},";
                             }
-                            else if (CurrentRGB == Color.FromArgb(255, 255, 0) && PoliticalDJ.GetPixel(x,y) == Color.FromArgb(0, 255, 0))
-                            {
-                                mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":";
-                                CurrentRGB = FindNeighours(PoliticalDJ, x, y);
-                                foreach (int[] country in countries)
-                                {
-                                    if (country[3] == CurrentRGB.R &&
-                                    country[4] == CurrentRGB.G &&
-                                    country[5] == CurrentRGB.B)
-                                    {
-                                        mem += country[0];
-                                        break;
-                                    }
-                                    if (country[0] == countries.Count)
-                                        mem += 0;
-                                }
-                                mem += $",\"rp\":0}},";
-                            }
                             else if (CurrentRGB == Color.FromArgb(255, 255, 0))
                             {
-                                mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":0,\"rp\":0}},";
+                                if(PoliticalDJ!=null)
+                                {
+                                    if (CurrentRGB == Color.FromArgb(255, 255, 0) && PoliticalDJ.GetPixel(x, y) == Color.FromArgb(0, 255, 0))
+                                    {
+                                        mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":";
+                                        CurrentRGB = FindNeighours(PoliticalDJ, x, y);
+                                        foreach (int[] country in countries)
+                                        {
+                                            if (country[3] == CurrentRGB.R &&
+                                            country[4] == CurrentRGB.G &&
+                                            country[5] == CurrentRGB.B)
+                                            {
+                                                mem += country[0];
+                                                break;
+                                            }
+                                            if (country[0] == countries.Count)
+                                                mem += 0;
+                                        }
+                                        mem += $",\"rp\":0}},";
+                                    }
+                                }
+                                else mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":0,\"rp\":0}},";
                             }
                         }
                         progress.Report((h - y) / (double)h * 20 + 20);

@@ -1,6 +1,6 @@
 ﻿namespace AoC_Image_to_Scenario_Converter
 {
-    partial class MainUI
+    partial class LegacyUI
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LegacyUI));
             label1 = new Label();
             ModeSelectComboBox = new ComboBox();
             label2 = new Label();
@@ -37,12 +37,10 @@
             label4 = new Label();
             pictureBox1 = new PictureBox();
             GenButton = new Button();
-            OutputDestination = new TextBox();
             Image2Selection = new TextBox();
             Image1Selection = new TextBox();
             Image1SelectionBrowse = new Button();
             Image2SelectionBrowse = new Button();
-            OutputDestinationBrowse = new Button();
             PosterizationTrackBar = new TrackBar();
             label9 = new Label();
             label10 = new Label();
@@ -54,8 +52,8 @@
             AdvancedCitiesCheckbox = new CheckBox();
             PosterizationBox = new GroupBox();
             OutputDestinationBox = new GroupBox();
-            progressBar1 = new ProgressBar();
-            label5 = new Label();
+            OutputDestinationBrowse = new Button();
+            OutputDestination = new TextBox();
             label6 = new Label();
             NameSelection = new TextBox();
             toolTip1 = new ToolTip(components);
@@ -66,6 +64,8 @@
             Image3Selection = new TextBox();
             toolTip2 = new ToolTip(components);
             toolTip3 = new ToolTip(components);
+            label5 = new Label();
+            progressBar1 = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PosterizationTrackBar).BeginInit();
             File1SelectBox.SuspendLayout();
@@ -153,15 +153,6 @@
             GenButton.UseVisualStyleBackColor = true;
             GenButton.Click += GenButton_Click;
             // 
-            // OutputDestination
-            // 
-            OutputDestination.AllowDrop = true;
-            OutputDestination.Location = new Point(8, 22);
-            OutputDestination.Margin = new Padding(4, 3, 4, 3);
-            OutputDestination.Name = "OutputDestination";
-            OutputDestination.Size = new Size(393, 23);
-            OutputDestination.TabIndex = 7;
-            // 
             // Image2Selection
             // 
             Image2Selection.AllowDrop = true;
@@ -201,17 +192,6 @@
             Image2SelectionBrowse.Text = "Browse";
             Image2SelectionBrowse.UseVisualStyleBackColor = true;
             Image2SelectionBrowse.Click += Image2SelectionBrowse_Click;
-            // 
-            // OutputDestinationBrowse
-            // 
-            OutputDestinationBrowse.Location = new Point(408, 22);
-            OutputDestinationBrowse.Margin = new Padding(4, 3, 4, 3);
-            OutputDestinationBrowse.Name = "OutputDestinationBrowse";
-            OutputDestinationBrowse.Size = new Size(88, 27);
-            OutputDestinationBrowse.TabIndex = 12;
-            OutputDestinationBrowse.Text = "Browse";
-            OutputDestinationBrowse.UseVisualStyleBackColor = true;
-            OutputDestinationBrowse.Click += OutputDestinationBrowse_Click;
             // 
             // PosterizationTrackBar
             // 
@@ -344,24 +324,24 @@
             OutputDestinationBox.TabStop = false;
             OutputDestinationBox.Text = "Select Output Destiantion";
             // 
-            // progressBar1
+            // OutputDestinationBrowse
             // 
-            progressBar1.Location = new Point(107, 676);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(410, 23);
-            progressBar1.Style = ProgressBarStyle.Continuous;
-            progressBar1.TabIndex = 24;
-            progressBar1.Visible = false;
+            OutputDestinationBrowse.Location = new Point(410, 22);
+            OutputDestinationBrowse.Margin = new Padding(4, 3, 4, 3);
+            OutputDestinationBrowse.Name = "OutputDestinationBrowse";
+            OutputDestinationBrowse.Size = new Size(88, 27);
+            OutputDestinationBrowse.TabIndex = 13;
+            OutputDestinationBrowse.Text = "Browse";
+            OutputDestinationBrowse.UseVisualStyleBackColor = true;
+            OutputDestinationBrowse.Click += OutputDestinationBrowse_Click;
             // 
-            // label5
+            // OutputDestination
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(107, 658);
-            label5.Name = "label5";
-            label5.Size = new Size(106, 15);
-            label5.TabIndex = 25;
-            label5.Text = "Creating Countries";
-            label5.Visible = false;
+            OutputDestination.Location = new Point(8, 22);
+            OutputDestination.Margin = new Padding(4, 3, 4, 3);
+            OutputDestination.Name = "OutputDestination";
+            OutputDestination.Size = new Size(400, 23);
+            OutputDestination.TabIndex = 31;
             // 
             // label6
             // 
@@ -421,7 +401,7 @@
             // 
             // Image3SelectionBrowse
             // 
-            Image3SelectionBrowse.Location = new Point(411, 22);
+            Image3SelectionBrowse.Location = new Point(410, 22);
             Image3SelectionBrowse.Margin = new Padding(4, 3, 4, 3);
             Image3SelectionBrowse.Name = "Image3SelectionBrowse";
             Image3SelectionBrowse.Size = new Size(88, 27);
@@ -439,7 +419,26 @@
             Image3Selection.Size = new Size(394, 23);
             Image3Selection.TabIndex = 11;
             // 
-            // MainUI
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(107, 658);
+            label5.Name = "label5";
+            label5.Size = new Size(106, 15);
+            label5.TabIndex = 25;
+            label5.Text = "Creating Countries";
+            label5.Visible = false;
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(107, 676);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(410, 23);
+            progressBar1.Style = ProgressBarStyle.Continuous;
+            progressBar1.TabIndex = 24;
+            progressBar1.Visible = false;
+            // 
+            // LegacyUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -468,8 +467,8 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
-            Name = "MainUI";
-            Text = "Image to Scenario Converter v3.4.0";
+            Name = "LegacyUI";
+            Text = "Image to Scenario Converter v3.4.1";
             Load += MainUI_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)PosterizationTrackBar).EndInit();
@@ -496,18 +495,14 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button GenButton;
         public System.Windows.Forms.ComboBox ModeSelectComboBox;
-        public System.Windows.Forms.TextBox OutputDestination;
         private System.Windows.Forms.Button Image1SelectionBrowse;
         private System.Windows.Forms.Button Image2SelectionBrowse;
-        private System.Windows.Forms.Button OutputDestinationBrowse;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.GroupBox File1SelectBox;
         private System.Windows.Forms.GroupBox File2SelectBox;
         private System.Windows.Forms.GroupBox PosterizationBox;
         private System.Windows.Forms.GroupBox OutputDestinationBox;
-        private ProgressBar progressBar1;
-        private Label label5;
         public TextBox Image1Selection;
         public TrackBar PosterizationTrackBar;
         public TextBox Image2Selection;
@@ -525,6 +520,10 @@
         private ToolTip toolTip2;
         private CheckBox FlagsCheckbox;
         private ToolTip toolTip3;
+        private Label label5;
+        private ProgressBar progressBar1;
+        private TextBox OutputDestination;
+        private Button OutputDestinationBrowse;
     }
 }
 

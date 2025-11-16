@@ -22,10 +22,10 @@ using static AoC_Image_to_Scenario_Converter.MapArtMode;
 
 namespace AoC_Image_to_Scenario_Converter
 {
-    public partial class MainUI : Form
+    public partial class LegacyUI : Form
     {
 
-        public MainUI()
+        public LegacyUI()
         {
             InitializeComponent();
         }

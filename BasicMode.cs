@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static AoC_Image_to_Scenario_Converter.MainUI;
 
 namespace AoC_Image_to_Scenario_Converter
 {
