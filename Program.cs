@@ -16,7 +16,7 @@ namespace AoC_Image_to_Scenario_Converter
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LegacyUI());
+            Application.Run(new V4UI());
         }
     }
 }

@@ -195,7 +195,7 @@ namespace AoC_Image_to_Scenario_Converter
                         label5.Visible = true;
                         await Task.Run(() =>
                         {
-                            AdvMode.Generate(Img1, Img2, Img3, OutputDestination.Text, NameSelection.Text, CapitalsChackbox.Checked, AdvancedCitiesCheckbox.Checked, FlagsCheckbox.Checked, progress);
+                            //AdvMode.Generate(Img1, Img2, Img3, OutputDestination.Text, NameSelection.Text, CapitalsChackbox.Checked, AdvancedCitiesCheckbox.Checked, FlagsCheckbox.Checked, progress);
                         });
                     }
                     else

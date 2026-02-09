@@ -11,7 +11,7 @@ namespace AoC_Image_to_Scenario_Converter
 {
     class AdvMode
     {
-        public static StreamWriter Generate(Bitmap Terrain, Bitmap PoliticalDF, Bitmap? PoliticalDJ, string destination, string name, bool Capitals, bool AdvCities, bool Flags, IProgress<double> progress)
+        public static StreamWriter Generate(Bitmap Terrain, Bitmap PoliticalDF, Bitmap? PoliticalDJ, Bitmap? CityMap, string destination, string name, int CitySetting, bool Flags, IProgress<double> progress)
         {
             try
             {
@@ -35,80 +35,109 @@ namespace AoC_Image_to_Scenario_Converter
                 string mem = "";
                 Color CurrentRGB;
                 List<int[]> countries = [];
-                List<Color>? citycolors;
+                List<Color>? citycolors = [];
                 List<Color> UniqueColors = [];
-                List<int> TerrainRaw = [], TerrainValues = [], TerrainAmounts = [],
+                List<int> 
+                    TerrainRaw = [], TerrainValues = [], TerrainAmounts = [],
                     OwnerRaw = [], OwnerValues = [], OwnerAmounts = [],
                     OccupationRaw = [], OccupationValues = [], OccupationAmounts = [];
-
-
-                if (AdvCities) citycolors = [Color.FromArgb(255, 0, 0), Color.FromArgb(0, 255, 0), Color.FromArgb(255, 255, 0)];
-                else if (Capitals) citycolors = [Color.FromArgb(255, 0, 0)];
-                else citycolors = [];
+           
 
                 output.Write($"{{\"version\":\"4.2.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
 
-
+                #region Countries
                 //finding unique colors and creating countires
-
-                if(Capitals)
+                switch (CitySetting)
                 {
-                    for (int y = h - 1; y >= 0; y--)
-                    {
-                        for (int x = 0; x < w; x++)
+                    case 0:
+                        citycolors = [];
+                        for (int y = h - 1; y >= 0; y--)
                         {
-                            CurrentRGB = PoliticalDF.GetPixel(x, y);
-                            if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
-                                continue;
-                            UniqueColors.Add(CurrentRGB);
-                        }
-                    }
-
-
-                    for (int y = h - 1; y >= 0; y--)
-                    {
-                        for (int x = 0; x < w; x++)
-                        {
-                            if (PoliticalDF.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
+                            for (int x = 0; x < w; x++)
                             {
-                                CurrentRGB = FindNeighours(PoliticalDF, x, y);
+                                CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                if (UniqueColors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                    continue;
                                 countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
-                                while (UniqueColors.Remove(CurrentRGB)) { }
+                                UniqueColors.Add(CurrentRGB);
                                 id++;
                             }
-
                         }
-                        progress.Report((h - y) / (double)h * 15);
-                    }
+                        break;
 
-                    if (UniqueColors.Count != 0)
-                    {
-                        string MissingCapitals = "";
-                        foreach (Color color in UniqueColors)
+                    case 1:
+                        citycolors = [Color.FromArgb(255, 0, 0), Color.FromArgb(0, 255, 0), Color.FromArgb(255, 255, 0)];
+                        for (int y = h - 1; y >= 0; y--)
                         {
-                            MissingCapitals += $"\n   #{color.R:X2}{color.G:X2}{color.B:X2}";
+                            for (int x = 0; x < w; x++)
+                            {
+                                CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                    continue;
+                                UniqueColors.Add(CurrentRGB);
+                            }
                         }
-                        output.Close();
-                        File.Delete(destination + $"\\{name}\\{name}.aoc");
-                        Directory.Delete(destination + $"\\{name}");
-                        throw new Exception($"The countries of following colors have no capital specified:{MissingCapitals}");
-                    }
+
+                        for (int y = h - 1; y >= 0; y--)
+                        {
+                            for (int x = 0; x < w; x++)
+                            {
+                                if (PoliticalDF.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
+                                {
+                                    CurrentRGB = FindNeighours(PoliticalDF, x, y);
+                                    countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
+                                    while (UniqueColors.Remove(CurrentRGB)) { }
+                                    id++;
+                                }
+
+                            }
+                            progress.Report((h - y) / (double)h * 15);
+                        }
+                        break;
+
+                    case 2:
+                        citycolors = [Color.FromArgb(255, 0, 0)];
+                        for (int y = h - 1; y >= 0; y--)
+                        {
+                            for (int x = 0; x < w; x++)
+                            {
+                                CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                    continue;
+                                UniqueColors.Add(CurrentRGB);
+                            }
+                        }
+
+                        for (int y = h - 1; y >= 0; y--)
+                        {
+                            for (int x = 0; x < w; x++)
+                            {
+                                if (CityMap.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
+                                {
+                                    CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                    countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
+                                    while (UniqueColors.Remove(CurrentRGB)) { }
+                                    id++;
+                                }
+                            }
+                            progress.Report((h - y) / (double)h * 15);
+                        }
+                        break;
                 }
-                else
+
+                if (CitySetting != 0 && UniqueColors.Count != 0)
                 {
-                    for (int y = h - 1; y >= 0; y--)
+                    string MissingCapitals = "";
+                    foreach (Color color in UniqueColors)
                     {
-                        for (int x = 0; x < w; x++)
-                        {
-                            CurrentRGB = PoliticalDF.GetPixel(x, y);
-                            if (UniqueColors.Contains(CurrentRGB) || CurrentRGB.A == 0)
-                                continue;
-                            countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
-                            UniqueColors.Add(CurrentRGB);
-                            id++;
-                        }
+                        MissingCapitals += $"\n   #{color.R:X2}{color.G:X2}{color.B:X2}";
                     }
+                    output.Close();
+                    File.Delete(destination + $"\\{name}\\{name}.aoc");
+                    Directory.Delete(destination + $"\\{name}");
+                    throw new Exception($"The countries of following colors have no capital specified:{MissingCapitals}");
                 }
+
                 int F;
                 if (Flags)
                 {
@@ -129,78 +158,104 @@ namespace AoC_Image_to_Scenario_Converter
                 }
 
                 output.Write("],\"cities\":[");
+                #endregion
+
+                #region Cities
                 //finding and creating cities
 
-                if (AdvCities)
+                foreach (int[] country in countries)
                 {
-                    foreach (int[] country in countries)
-                    {
-                        mem += $"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]},\"rp\":0}},";
-                    }
-                    for (int y = h - 1; y >= 0; y--)
-                    {
-                        for (int x = 0; x < w; x++)
+                    mem += $"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]},\"rp\":0}},";
+                    progress.Report(country[0] / countries.Count * 20 + 20);
+                }
+
+                switch (CitySetting)
+                {
+                    case 1:
+                        for (int y = h - 1; y >= 0; y--)
                         {
-                            CurrentRGB = PoliticalDF.GetPixel(x, y);
-                            if (CurrentRGB == Color.FromArgb(0, 255, 0))
+                            for (int x = 0; x < w; x++)
                             {
-                                mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":";
-                                CurrentRGB = FindNeighours(PoliticalDF, x, y);
-                                foreach (int[] country in countries)
+                                CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                if (CurrentRGB == Color.FromArgb(0, 255, 0))
                                 {
-                                    if (country[3] == CurrentRGB.R &&
-                                    country[4] == CurrentRGB.G &&
-                                    country[5] == CurrentRGB.B)
+                                    mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":";
+                                    CurrentRGB = FindNeighours(PoliticalDF, x, y);
+                                    foreach (int[] country in countries)
                                     {
-                                        mem += country[0];
-                                        break;
-                                    }
-                                    if (country[0]==countries.Count)
-                                        mem += 0;
-                                }
-                                mem += $",\"rp\":0}},";
-                            }
-                            else if (CurrentRGB == Color.FromArgb(255, 255, 0))
-                            {
-                                if(PoliticalDJ!=null)
-                                {
-                                    if (CurrentRGB == Color.FromArgb(255, 255, 0) && PoliticalDJ.GetPixel(x, y) == Color.FromArgb(0, 255, 0))
-                                    {
-                                        mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":";
-                                        CurrentRGB = FindNeighours(PoliticalDJ, x, y);
-                                        foreach (int[] country in countries)
+                                        if (country[3] == CurrentRGB.R &&
+                                        country[4] == CurrentRGB.G &&
+                                        country[5] == CurrentRGB.B)
                                         {
-                                            if (country[3] == CurrentRGB.R &&
-                                            country[4] == CurrentRGB.G &&
-                                            country[5] == CurrentRGB.B)
-                                            {
-                                                mem += country[0];
-                                                break;
-                                            }
-                                            if (country[0] == countries.Count)
-                                                mem += 0;
+                                            mem += country[0];
+                                            break;
                                         }
-                                        mem += $",\"rp\":0}},";
+                                        if (country[0] == countries.Count)
+                                            mem += 0;
                                     }
+                                    mem += $",\"rp\":0}},";
                                 }
-                                else mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":0,\"rp\":0}},";
+                                else if (CurrentRGB == Color.FromArgb(255, 255, 0))
+                                {
+                                    if (PoliticalDJ != null)
+                                    {
+                                        if (CurrentRGB == Color.FromArgb(255, 255, 0) && PoliticalDJ.GetPixel(x, y) == Color.FromArgb(0, 255, 0))
+                                        {
+                                            mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":";
+                                            CurrentRGB = FindNeighours(PoliticalDJ, x, y);
+                                            foreach (int[] country in countries)
+                                            {
+                                                if (country[3] == CurrentRGB.R &&
+                                                country[4] == CurrentRGB.G &&
+                                                country[5] == CurrentRGB.B)
+                                                {
+                                                    mem += country[0];
+                                                    break;
+                                                }
+                                                if (country[0] == countries.Count)
+                                                    mem += 0;
+                                            }
+                                            mem += $",\"rp\":0}},";
+                                        }
+                                    }
+                                    else mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":0,\"rp\":0}},";
+                                }
                             }
+                            progress.Report((h - y) / (double)h * 20 + 20);
                         }
-                        progress.Report((h - y) / (double)h * 20 + 20);
-                    }
+                        break;
+
+                    case 2:
+                        for (int y = h - 1; y >= 0; y--)
+                        {
+                            for (int x = 0; x < w; x++)
+                            {
+                                CurrentRGB = CityMap.GetPixel(x, y);
+                                if (CurrentRGB.A != 0)
+                                    foreach (int[] country in countries)
+                                    {
+                                        if (CurrentRGB == Color.FromArgb(country[3], country[4], country[5]))
+                                        {
+                                            mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":{country[0]},\"rp\":0}},";
+                                            break;
+                                        }
+                                        if (country[0] == countries.Count)
+                                            mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":0,\"rp\":0}},";
+                                    }
+
+                            }
+                            progress.Report((h - y) / (double)h * 20 + 20);
+                        }
+                        break;
+                    default:
+                        break;
                 }
-                else
-                {
-                    foreach (int[] country in countries)
-                    {
-                        output.Write($"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]},\"rp\":0}}");
-                        if (country[0] < countries.Count) output.Write(",");
-                        progress.Report(country[0] / countries.Count * 20 + 20);
-                    }
-                }
+
                 output.Write(mem.TrimEnd(','));
                 output.Write("],\"alliances\":[],\"wars\":[],\"terrain2\":");
+                #endregion
 
+                #region Terrain
                 //creating map
                 for (int y = h - 1; y >= 0; y--)
                 {
@@ -262,7 +317,9 @@ namespace AoC_Image_to_Scenario_Converter
 
                 output.Write("]},\"owner2\":");
                 p = 0;
+                #endregion
 
+                #region Territory
                 //assigning ownership
                 for (int y = h - 1; y >= 0; y--)
                 {
@@ -339,7 +396,9 @@ namespace AoC_Image_to_Scenario_Converter
                     if (p < OwnerValues.Count) output.Write(",");
                 }
                 p = 0;
+                #endregion
 
+                #region Occupations
                 //creating occupation zones
                 if (PoliticalDJ==null)
                     output.Write($"]}},\"occupations\":{{\"amounts\":[{w*h}],\"values\":[0]}},\"terrain\":[],\"owner\":[],\"history\":[]}}");
@@ -397,7 +456,7 @@ namespace AoC_Image_to_Scenario_Converter
 
                     output.Write("]},\"terrain\":[],\"owner\":[],\"history\":[]}");
                 }
-
+                #endregion
 
                 output.Close();
                 progress.Report(100);
