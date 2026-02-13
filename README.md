@@ -36,7 +36,9 @@ This mode has several additional settings:
 ## Terrain Swap Mode
 Replaces terrain in a preexisting scenario according to the terrain map provided. Most useful when updating multiple scenarios using the same map.
 
-To use it you only need to choose a scenario and provide a new map (that naturally needs to be the same size as the scenario). It's best practice not to override your scenario and instead save a copy.
+To use it you only need to choose a scenario and provide a new map that needs to be at least the same size as the original. If possible, flags will be also copied over from the original scenario.
+
+You can also use this mode to increase the size of the map by selecting "map size override" option and providing the offset from the bottom left corner, which effectively equates to the size gained in the south and west.
 
 ## Map Art mode
 Recreates images by placing countries of corresponding colors on a blank map. The goofiest of the bunch with limited practical use, but it's here.
