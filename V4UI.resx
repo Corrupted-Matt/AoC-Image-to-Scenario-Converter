@@ -122,6 +122,11 @@
 political map(s) must use one unique color per nation with no man's land remaining transparent.
 Most useful if you want to paint countries in your image editor of choice instead of the one provided by the game.</value>
   </data>
+  <data name="MSOtext.Text" xml:space="preserve">
+    <value>Now your new map can be bigger than the current scenario
+By default, everything in your old scenario will snap to the bottom left corner of the new map,
+use the controls below to adjust the offset relative to that corner:</value>
+  </data>
   <metadata name="PoliticalCitiesTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

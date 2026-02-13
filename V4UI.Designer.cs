@@ -58,6 +58,11 @@
             AM1browse = new Button();
             AM1txt = new TextBox();
             TerrainSwapTab = new TabPage();
+            OffsetText = new Label();
+            Yoffset = new NumericUpDown();
+            Xoffset = new NumericUpDown();
+            MSOtext = new Label();
+            MSOcheckbox = new CheckBox();
             TSselect2box = new GroupBox();
             TS2browse = new Button();
             TS2txt = new TextBox();
@@ -110,6 +115,8 @@
             AMselect2box.SuspendLayout();
             AMselect1box.SuspendLayout();
             TerrainSwapTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)Yoffset).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)Xoffset).BeginInit();
             TSselect2box.SuspendLayout();
             TSselect1box.SuspendLayout();
             MapArtTab.SuspendLayout();
@@ -445,6 +452,11 @@
             // TerrainSwapTab
             // 
             TerrainSwapTab.BackColor = Color.Honeydew;
+            TerrainSwapTab.Controls.Add(OffsetText);
+            TerrainSwapTab.Controls.Add(Yoffset);
+            TerrainSwapTab.Controls.Add(Xoffset);
+            TerrainSwapTab.Controls.Add(MSOtext);
+            TerrainSwapTab.Controls.Add(MSOcheckbox);
             TerrainSwapTab.Controls.Add(TSselect2box);
             TerrainSwapTab.Controls.Add(label4);
             TerrainSwapTab.Controls.Add(TSselect1box);
@@ -453,6 +465,55 @@
             TerrainSwapTab.Size = new Size(876, 407);
             TerrainSwapTab.TabIndex = 2;
             TerrainSwapTab.Text = "Terrain Swap";
+            // 
+            // OffsetText
+            // 
+            OffsetText.AutoSize = true;
+            OffsetText.Location = new Point(10, 310);
+            OffsetText.Name = "OffsetText";
+            OffsetText.Size = new Size(74, 85);
+            OffsetText.TabIndex = 37;
+            OffsetText.Text = "x offset:\r\n(horizontal)\r\n\r\ny offset:\r\n(vertical)";
+            OffsetText.Visible = false;
+            // 
+            // Yoffset
+            // 
+            Yoffset.Location = new Point(90, 365);
+            Yoffset.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            Yoffset.Name = "Yoffset";
+            Yoffset.Size = new Size(60, 25);
+            Yoffset.TabIndex = 36;
+            Yoffset.Visible = false;
+            // 
+            // Xoffset
+            // 
+            Xoffset.Location = new Point(90, 315);
+            Xoffset.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            Xoffset.Name = "Xoffset";
+            Xoffset.Size = new Size(60, 25);
+            Xoffset.TabIndex = 35;
+            Xoffset.Visible = false;
+            // 
+            // MSOtext
+            // 
+            MSOtext.AutoSize = true;
+            MSOtext.Location = new Point(10, 250);
+            MSOtext.Name = "MSOtext";
+            MSOtext.Size = new Size(553, 51);
+            MSOtext.TabIndex = 34;
+            MSOtext.Text = resources.GetString("MSOtext.Text");
+            MSOtext.Visible = false;
+            // 
+            // MSOcheckbox
+            // 
+            MSOcheckbox.AutoSize = true;
+            MSOcheckbox.Location = new Point(10, 225);
+            MSOcheckbox.Name = "MSOcheckbox";
+            MSOcheckbox.Size = new Size(133, 21);
+            MSOcheckbox.TabIndex = 33;
+            MSOcheckbox.Text = "Map size override";
+            MSOcheckbox.UseVisualStyleBackColor = true;
+            MSOcheckbox.CheckedChanged += MSOcheckbox_CheckedChanged;
             // 
             // TSselect2box
             // 
@@ -699,7 +760,7 @@
             label11.Name = "label11";
             label11.Size = new Size(69, 17);
             label11.TabIndex = 1;
-            label11.Text = "4.0.0-pre1";
+            label11.Text = "4.0.0-pre2";
             // 
             // label8
             // 
@@ -809,10 +870,11 @@
             ProgressLabel.AutoSize = true;
             ProgressLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 238);
             ProgressLabel.Location = new Point(14, 504);
+            ProgressLabel.MaximumSize = new Size(250, 20);
             ProgressLabel.Name = "ProgressLabel";
-            ProgressLabel.Size = new Size(116, 17);
+            ProgressLabel.Size = new Size(65, 17);
             ProgressLabel.TabIndex = 25;
-            ProgressLabel.Text = "Creating Countries";
+            ProgressLabel.Text = "Preparing";
             ProgressLabel.Visible = false;
             // 
             // NameSelection
@@ -890,6 +952,8 @@
             AMselect1box.PerformLayout();
             TerrainSwapTab.ResumeLayout(false);
             TerrainSwapTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)Yoffset).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Xoffset).EndInit();
             TSselect2box.ResumeLayout(false);
             TSselect2box.PerformLayout();
             TSselect1box.ResumeLayout(false);
@@ -982,5 +1046,10 @@
         private Label STlabel;
         private ToolTip SecretTooltip;
         private Button RunGameButton;
+        private Label MSOtext;
+        private CheckBox MSOcheckbox;
+        private NumericUpDown Yoffset;
+        private NumericUpDown Xoffset;
+        private Label OffsetText;
     }
 }

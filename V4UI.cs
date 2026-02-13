@@ -21,8 +21,8 @@ namespace AoC_Image_to_Scenario_Converter
         Bitmap? Img1, Img2, Img3, Img4;
         Image[]? PosterizedImages;
         string InputScenarioDest, OutputDest, SelectedName;
-        bool Flags, Occupations;
-        int ColorChannels, CitiesSetting = 0;
+        bool Flags, Occupations, MSO;
+        int ColorChannels, CitiesSetting = 0, x, y;
 
         public V4UI()
         {
@@ -67,18 +67,20 @@ namespace AoC_Image_to_Scenario_Converter
                     t.BackColor = Color.White;
                 }
                 GenerateButton.Enabled = false;
-                ModeSelect.Enabled = false;
+                GenerateButton.Text = "Please\nwait";
+                ProgressBar.Visible = true;
+                ProgressLabel.Visible = true;
 
                 var progress = new Progress<double>(value =>
                 {
                     ProgressBar.Value = (int)value;
                     if (value == 0) ProgressLabel.Text = "Preparing";
-                    else if (value < 20) ProgressLabel.Text = "[1 of 5] Creating Countires";
-                    else if (value < 40) ProgressLabel.Text = "[2 of 5] Placing Cities";
-                    else if (value < 60) ProgressLabel.Text = "[3 of 5] Painting Map";
-                    else if (value < 80) ProgressLabel.Text = "[4 of 5] Assigning Ownership";
-                    else if (value < 100) ProgressLabel.Text = "[5 of 5] Drawing Occupation Zones";
-                    else ProgressLabel.Text = "Complete!";
+                    else if (value < 20) ProgressLabel.Text = $"{value:0.00}% - Creating Countires";
+                    else if (value < 40) ProgressLabel.Text = $"{value:0.00}% - Placing Cities";
+                    else if (value < 60) ProgressLabel.Text = $"{value:0.00}% - Drawing Terrain";
+                    else if (value < 80) ProgressLabel.Text = $"{value:0.00}% - Assigning Ownership";
+                    else if (value < 100) ProgressLabel.Text = $"{value:0.00}% - Adding Occupation Zones";
+                    else ProgressLabel.Text = "Wrapping up";
                 });
 
                 switch (SelectedMode)
@@ -97,8 +99,6 @@ namespace AoC_Image_to_Scenario_Converter
                         {
                             Img1 = (Bitmap)Image.FromFile(BM1txt.Text);
 
-                            ProgressBar.Visible = true;
-                            ProgressLabel.Visible = true;
                             foreach (TextBox t in BasicTab.Controls.Find("txt", true))
                             {
                                 t.BackColor = Color.White;
@@ -126,6 +126,9 @@ namespace AoC_Image_to_Scenario_Converter
                         }
                         else
                         {
+                            if (CitiesButton0.Checked) CitiesSetting = 0;
+                            else if (CitiesButton1.Checked) CitiesSetting = 1;
+                            else if (CitiesButton2.Checked) CitiesSetting = 2;
                             Occupations = OccupationsCheckbox.Checked;
                             Flags = FlagsCheckbox.Checked;
                             Img1 = (Bitmap)Image.FromFile(AM1txt.Text);
@@ -135,8 +138,6 @@ namespace AoC_Image_to_Scenario_Converter
                             if (CitiesSetting == 2) Img4 = (Bitmap)Image.FromFile(AM4txt.Text);
                             else Img4 = null;
 
-                            ProgressBar.Visible = true;
-                            ProgressLabel.Visible = true;
                             foreach (TextBox t in AdvancedTab.Controls.Find("txt", true))
                             {
                                 t.BackColor = Color.White;
@@ -162,10 +163,10 @@ namespace AoC_Image_to_Scenario_Converter
                         else
                         {
                             Img1 = (Bitmap)Image.FromFile(TS1txt.Text);
+                            MSO = MSOcheckbox.Checked;
+                            x = (int)Xoffset.Value; y = (int)Yoffset.Value;
                             InputScenarioDest = TS2txt.Text;
 
-                            ProgressBar.Visible = true;
-                            ProgressLabel.Visible = true;
                             foreach (TextBox t in TerrainSwapTab.Controls.Find("txt", true))
                             {
                                 t.BackColor = Color.White;
@@ -173,7 +174,7 @@ namespace AoC_Image_to_Scenario_Converter
 
                             await Task.Run(() =>
                             {
-                                TerrainSwapMode.Generate(Img1, InputScenarioDest, OutputDest, SelectedName, progress);
+                                TerrainSwapMode.Generate(Img1, InputScenarioDest, MSO, x, y, OutputDest, SelectedName, progress);
                             });
                         }
                         break;
@@ -192,8 +193,6 @@ namespace AoC_Image_to_Scenario_Converter
                             Img1 = (Bitmap)Image.FromFile(MA1txt.Text);
                             ColorChannels = (int)Math.Pow(2, 8 - PosterizationTrackBar.Value);
 
-                            ProgressBar.Visible = true;
-                            ProgressLabel.Visible = true;
                             foreach (TextBox t in MapArtTab.Controls.Find("txt", true))
                             {
                                 t.BackColor = Color.White;
@@ -210,7 +209,7 @@ namespace AoC_Image_to_Scenario_Converter
                         break;
                 }
                 GenerateButton.Enabled = true;
-                ModeSelect.Enabled = true;
+                GenerateButton.Text = "Generate\nscenario";
                 ProgressBar.Visible = false;
                 ProgressLabel.Visible = false;
             }
@@ -290,10 +289,10 @@ namespace AoC_Image_to_Scenario_Converter
 
         private void CitySettingButton_Click(object sender, EventArgs e)
         {
-            RadioButton r = sender as RadioButton;
-            CitiesSetting = r.Name.Last() - 48; //this is criminal, but it works
-            if (CitiesSetting == 2) AMselect4box.Visible = true;
-            else AMselect4box.Visible = false;
+            if(CitiesButton2.Checked)
+                AMselect4box.Visible = true;
+            else
+                AMselect4box.Visible = false;
         }
 
         private void OccupationsCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -317,6 +316,13 @@ namespace AoC_Image_to_Scenario_Converter
                 TS2txt.Text = ScenarioSelectDialog.FileName;
         }
 
+        private void MSOcheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            MSOtext.Visible = MSOcheckbox.Checked;
+            OffsetText.Visible = MSOcheckbox.Checked;
+            Xoffset.Visible = MSOcheckbox.Checked;
+            Yoffset.Visible = MSOcheckbox.Checked;
+        }
         #endregion
 
         #region Map Art Exclusive Controls
@@ -370,5 +376,6 @@ namespace AoC_Image_to_Scenario_Converter
         }
 
         #endregion
+
     }
 }

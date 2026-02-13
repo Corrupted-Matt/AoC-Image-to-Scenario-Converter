@@ -12,21 +12,21 @@ namespace AoC_Image_to_Scenario_Converter
     {
         public static Bitmap PosterizeImage(Bitmap image, int colorLevels)
         {
-            Bitmap newImage = new(image.Width, image.Height);
-            int scale = 256 / colorLevels;
+            int scale = 256 / colorLevels,
+                w = image.Width, h = image.Height;
+            Bitmap newImage = new(w,h);
 
-            // Iterate over each pixel of the image
-            for (int x = 0; x < image.Width; x++)
+            for (int x = 0; x < w; x++)
             {
-                for (int y = 0; y < image.Height; y++)
+                for (int y = 0; y < h; y++)
                 {
                     Color originalColor = image.GetPixel(x, y);
 
-                    int red = PosterizeChannel(originalColor.R, scale);
-                    int green = PosterizeChannel(originalColor.G, scale);
-                    int blue = PosterizeChannel(originalColor.B, scale);
+                    int r = PosterizeChannel(originalColor.R, scale);
+                    int g = PosterizeChannel(originalColor.G, scale);
+                    int b = PosterizeChannel(originalColor.B, scale);
 
-                    Color newColor = Color.FromArgb(red, green, blue);
+                    Color newColor = Color.FromArgb(r, g, b);
                     newImage.SetPixel(x, y, newColor);
                 }
             }

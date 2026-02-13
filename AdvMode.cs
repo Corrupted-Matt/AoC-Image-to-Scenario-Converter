@@ -15,7 +15,8 @@ namespace AoC_Image_to_Scenario_Converter
         {
             try
             {
-                if(PoliticalDJ==null)
+                progress.Report(0);
+                if (PoliticalDJ==null)
                 {
                     if (Terrain.Size != PoliticalDF.Size)
                         throw new Exception("Images need to have the same dimentions");
@@ -41,7 +42,6 @@ namespace AoC_Image_to_Scenario_Converter
                     TerrainRaw = [], TerrainValues = [], TerrainAmounts = [],
                     OwnerRaw = [], OwnerValues = [], OwnerAmounts = [],
                     OccupationRaw = [], OccupationValues = [], OccupationAmounts = [];
-           
 
                 output.Write($"{{\"version\":\"4.2.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
 
@@ -138,6 +138,7 @@ namespace AoC_Image_to_Scenario_Converter
                     throw new Exception($"The countries of following colors have no capital specified:{MissingCapitals}");
                 }
 
+                int Nsize = countries.Count;
                 int F;
                 if (Flags)
                 {
@@ -153,8 +154,8 @@ namespace AoC_Image_to_Scenario_Converter
                         $"\"color\":{{\"r\":{(float)country[3] / 255},\"g\":{(float)country[4] / 255},\"b\":{(float)country[5] / 255},\"a\":1.0}}," +
                         $"\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":5,\"maxArea\":0," +
                         $"\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0,\"isUnion\":false}}");
-                    if (country[0] < countries.Count) output.Write(",");
-                    progress.Report(country[0] / countries.Count * 5 + 15);
+                    if (country[0] < Nsize) output.Write(",");
+                    progress.Report((double)country[0] / Nsize * 5 + 15);
                 }
 
                 output.Write("],\"cities\":[");
@@ -166,7 +167,7 @@ namespace AoC_Image_to_Scenario_Converter
                 foreach (int[] country in countries)
                 {
                     mem += $"{{\"x\":{country[1]},\"y\":{country[2]},\"n\":\"\",\"r\":{country[0]},\"rp\":0}},";
-                    progress.Report(country[0] / countries.Count * 20 + 20);
+                    progress.Report((double)country[0] / Nsize * 20 + 20);
                 }
 
                 switch (CitySetting)
@@ -190,7 +191,7 @@ namespace AoC_Image_to_Scenario_Converter
                                             mem += country[0];
                                             break;
                                         }
-                                        if (country[0] == countries.Count)
+                                        if (country[0] == Nsize)
                                             mem += 0;
                                     }
                                     mem += $",\"rp\":0}},";
@@ -212,7 +213,7 @@ namespace AoC_Image_to_Scenario_Converter
                                                     mem += country[0];
                                                     break;
                                                 }
-                                                if (country[0] == countries.Count)
+                                                if (country[0] == Nsize)
                                                     mem += 0;
                                             }
                                             mem += $",\"rp\":0}},";
@@ -239,7 +240,7 @@ namespace AoC_Image_to_Scenario_Converter
                                             mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":{country[0]},\"rp\":0}},";
                                             break;
                                         }
-                                        if (country[0] == countries.Count)
+                                        if (country[0] == Nsize)
                                             mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":0,\"rp\":0}},";
                                     }
 
@@ -274,12 +275,13 @@ namespace AoC_Image_to_Scenario_Converter
                         else if (currentBrightness <= 0.9) TerrainRaw.Add(2);
                         else TerrainRaw.Add(0);
                     }
-                    progress.Report((h - y) / (double)h * 15 + 40);
+                    progress.Report((h - y) / (double)h * 20 + 40);
                 }
 
+                int Tsize = TerrainRaw.Count;
                 int currentValue = TerrainRaw[0];
                 int currentAmount = 1;
-                for (int n = 0; n < TerrainRaw.Count - 1; n++)
+                for (int n = 0; n < Tsize - 1; n++)
                 {
                     if (TerrainRaw[n] == TerrainRaw[n + 1])
                     {
@@ -292,17 +294,17 @@ namespace AoC_Image_to_Scenario_Converter
                         currentValue = TerrainRaw[n + 1];
                         currentAmount = 1;
                     }
-                    progress.Report(n / TerrainRaw.Count * 5 + 55);
                 }
                 TerrainAmounts.Add(currentAmount);
                 TerrainValues.Add(currentValue);
+                Tsize = TerrainAmounts.Count;
 
                 output.Write("{\"amounts\":[");
                 foreach (int a in TerrainAmounts)
                 {
                     output.Write(a);
                     p++;
-                    if (p < TerrainAmounts.Count) output.Write(",");
+                    if (p < Tsize) output.Write(",");
                 }
                 p = 0;
 
@@ -311,7 +313,7 @@ namespace AoC_Image_to_Scenario_Converter
                 {
                     output.Write(v);
                     p++;
-                    if (p < TerrainValues.Count) output.Write(",");
+                    if (p < Tsize) output.Write(",");
                 }
 
 
@@ -338,12 +340,12 @@ namespace AoC_Image_to_Scenario_Converter
                                     OwnerRaw.Add(country[0]);
                                     break;
                                 }
-                                if (country[0] == countries.Count) OwnerRaw.Add(0);
+                                if (country[0] == Nsize) OwnerRaw.Add(0);
                             }
                         }
                         else
                         {
-                            for (int i = 0; i < countries.Count; i++)
+                            for (int i = 0; i <     Nsize; i++)
                             {
                                 if (countries[i][3] == CurrentRGB.R &&
                                     countries[i][4] == CurrentRGB.G &&
@@ -352,16 +354,17 @@ namespace AoC_Image_to_Scenario_Converter
                                     OwnerRaw.Add(countries[i][0]);
                                     break;
                                 }
-                                if (i == countries.Count - 1) OwnerRaw.Add(0);
+                                if (i == Nsize - 1) OwnerRaw.Add(0);
                             }
                         }
                     }
-                    progress.Report((h - y) / (double)h * 15 + 60);
+                    progress.Report((h - y) / (double)h * 20 + 60);
                 }
 
+                int Osize = OwnerRaw.Count;
                 currentValue = OwnerRaw[0];
                 currentAmount = 1;
-                for (int n = 0; n < OwnerRaw.Count - 1; n++)
+                for (int n = 0; n < Osize - 1; n++)
                 {
                     if (OwnerRaw[n] == OwnerRaw[n + 1])
                     {
@@ -374,17 +377,17 @@ namespace AoC_Image_to_Scenario_Converter
                         currentValue = OwnerRaw[n + 1];
                         currentAmount = 1;
                     }
-                    progress.Report(n / OwnerRaw.Count * 5 + 75);
                 }
                 OwnerAmounts.Add(currentAmount);
                 OwnerValues.Add(currentValue);
+                Osize = OwnerAmounts.Count;
 
                 output.Write("{\"amounts\":[");
                 foreach (int a in OwnerAmounts)
                 {
                     output.Write(a);
                     p++;
-                    if (p < OwnerAmounts.Count) output.Write(",");
+                    if (p < Osize) output.Write(",");
                 }
                 p = 0;
 
@@ -393,7 +396,7 @@ namespace AoC_Image_to_Scenario_Converter
                 {
                     output.Write(v);
                     p++;
-                    if (p < OwnerValues.Count) output.Write(",");
+                    if (p < Osize) output.Write(",");
                 }
                 p = 0;
                 #endregion
@@ -414,12 +417,13 @@ namespace AoC_Image_to_Scenario_Converter
                             else 
                                 OccupationRaw.Add(0);
                         }
-                        progress.Report((h - y) / (double)h * 15 + 80);
+                        progress.Report((h - y) / (double)h * 20 + 80);
                     }
 
+                    int OCsize = OccupationRaw.Count;
                     currentValue = OccupationRaw[0];
                     currentAmount = 1;
-                    for (int n = 0; n < OccupationRaw.Count - 1; n++)
+                    for (int n = 0; n < OCsize - 1; n++)
                     {
                         if (OccupationRaw[n] == OccupationRaw[n + 1])
                         {
@@ -432,17 +436,17 @@ namespace AoC_Image_to_Scenario_Converter
                             currentValue = OccupationRaw[n + 1];
                             currentAmount = 1;
                         }
-                        progress.Report(n / OccupationRaw.Count * 5 + 95);
                     }
                     OccupationAmounts.Add(currentAmount);
                     OccupationValues.Add(currentValue);
+                    OCsize = OccupationAmounts.Count;
 
                     output.Write("{\"amounts\":[");
                     foreach (int a in OccupationAmounts)
                     {
                         output.Write(a);
                         p++;
-                        if (p < OccupationAmounts.Count) output.Write(",");
+                        if (p < Osize) output.Write(",");
                     }
                     p = 0;
 
@@ -451,7 +455,7 @@ namespace AoC_Image_to_Scenario_Converter
                     {
                         output.Write(v);
                         p++;
-                        if (p < OccupationValues.Count) output.Write(",");
+                        if (p < Osize) output.Write(",");
                     }
 
                     output.Write("]},\"terrain\":[],\"owner\":[],\"history\":[]}");

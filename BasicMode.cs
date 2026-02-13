@@ -16,6 +16,7 @@ namespace AoC_Image_to_Scenario_Converter
         {
             try
             {
+                progress.Report(0);
                 Directory.CreateDirectory(destination + $"\\{name}");
                 StreamWriter output = new(destination + $"\\{name}\\{name}.aoc");
                 int w = Input1.Width;
@@ -43,12 +44,13 @@ namespace AoC_Image_to_Scenario_Converter
                         else if (currentBrightness <= 0.9) TerrainRaw.Add(2);
                         else TerrainRaw.Add(0);
                     }
-                    progress.Report((h - y) / (double)h * 15 + 40);
+                    progress.Report((h - y) / (double)h * 20 + 40);
                 }
 
+                int Tsize = TerrainRaw.Count;
                 int currentValue = TerrainRaw[0];
                 int currentAmount = 1;
-                for (int n = 0; n < TerrainRaw.Count - 1; n++)
+                for (int n = 0; n < Tsize - 1; n++)
                 {
                     if (TerrainRaw[n] == TerrainRaw[n+1])
                     {
@@ -61,17 +63,17 @@ namespace AoC_Image_to_Scenario_Converter
                         currentValue = TerrainRaw[n+1];
                         currentAmount = 1;
                     }
-                    progress.Report(n / TerrainRaw.Count * 5 + 55);
                 }
                 TerrainAmounts.Add(currentAmount);
                 TerrainValues.Add(currentValue);
+                Tsize = TerrainAmounts.Count;
 
                 output.Write("{\"amounts\":[");
                 foreach(int a  in TerrainAmounts)
                 {
                     output.Write(a);
                     p++;
-                    if (p < TerrainAmounts.Count) output.Write(",");
+                    if (p < Tsize) output.Write(",");
                 }
                 p = 0;
 
@@ -80,7 +82,7 @@ namespace AoC_Image_to_Scenario_Converter
                 {
                     output.Write(v);
                     p++;
-                    if (p < TerrainValues.Count) output.Write(",");
+                    if (p < Tsize) output.Write(",");
                 }
 
 
