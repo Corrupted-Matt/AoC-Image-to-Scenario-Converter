@@ -47,25 +47,19 @@ namespace AoC_Image_to_Scenario_Converter
         public async void GenerateButton_Click(object sender, EventArgs e)
         {
             int SelectedMode = ModeSelect.SelectedIndex;
-
             SelectedName = NameSelection.Text;
             OutputDest = DestinationInput.Text;
 
             if ((SelectedName == "" || OutputDest == "") && SelectedMode != 4)
             {
-                foreach (TextBox t in Controls.Find("txt", true))
+                foreach (Control t in Controls)
                 {
-                    if (t.Text == "") t.BackColor = Color.LightYellow; // highlighting empty fields, so fancy
-                    else t.BackColor = Color.White;
+                    if (t is TextBox && t.Text == "") t.Focus();
                 }
                 MessageBox.Show("Please provide a name and output destination");
             }
             else
             {
-                foreach (TextBox t in Controls.Find("txt", true))
-                {
-                    t.BackColor = Color.White;
-                }
                 GenerateButton.Enabled = false;
                 GenerateButton.Text = "Please\nwait";
                 ProgressBar.Visible = true;
@@ -86,123 +80,65 @@ namespace AoC_Image_to_Scenario_Converter
                 switch (SelectedMode)
                 {
                     case 0:
-                        if (BM1txt.Text == "")
-                        {
-                            foreach (TextBox t in BasicTab.Controls.Find("txt", true))
-                            {
-                                if (t.Text == "") t.BackColor = Color.LightYellow;
-                                else t.BackColor = Color.White;
-                            }
-                            MessageBox.Show("Please provide all necessary inputs");
-                        }
-                        else
-                        {
-                            Img1 = (Bitmap)Image.FromFile(BM1txt.Text);
+                        if (IsBlank(BM1txt)) break;
 
-                            foreach (TextBox t in BasicTab.Controls.Find("txt", true))
-                            {
-                                t.BackColor = Color.White;
-                            }
+                        Img1 = (Bitmap)Image.FromFile(BM1txt.Text);
 
-                            await Task.Run(() =>
-                            {
-                                BasicMode.Generate(Img1, OutputDest, SelectedName, progress);
-                            });
-                        }
+                        await Task.Run(() =>
+                        {
+                            BasicMode.Generate(Img1, OutputDest, SelectedName, progress);
+                        });
                         break;
 
                     case 1:
-                        if (AM1txt.Text == "" ||
-                            AM2txt.Text == "" ||
-                            (AM3txt.Text == "" && OccupationsCheckbox.Checked) ||
-                            (AM4txt.Text == "" && CitiesSetting == 2))
-                        {
-                            foreach (TextBox t in AdvancedTab.Controls.Find("txt", true))
-                            {
-                                if (t.Text == "") t.BackColor = Color.LightYellow;
-                                else t.BackColor = Color.White;
-                            }
-                            MessageBox.Show("Please provide all necessary inputs");
-                        }
-                        else
-                        {
-                            if (CitiesButton0.Checked) CitiesSetting = 0;
-                            else if (CitiesButton1.Checked) CitiesSetting = 1;
-                            else if (CitiesButton2.Checked) CitiesSetting = 2;
-                            Occupations = OccupationsCheckbox.Checked;
-                            Flags = FlagsCheckbox.Checked;
-                            Img1 = (Bitmap)Image.FromFile(AM1txt.Text);
-                            Img2 = (Bitmap)Image.FromFile(AM2txt.Text);
-                            if (Occupations) Img3 = (Bitmap)Image.FromFile(AM3txt.Text);
-                            else Img3 = null;
-                            if (CitiesSetting == 2) Img4 = (Bitmap)Image.FromFile(AM4txt.Text);
-                            else Img4 = null;
+                        if(IsBlank(AM1txt) || 
+                           IsBlank(AM2txt) ||
+                          (IsBlank(AM3txt) && OccupationsCheckbox.Checked) ||
+                          (IsBlank(AM4txt) && CitiesButton2.Checked)) break;
 
-                            foreach (TextBox t in AdvancedTab.Controls.Find("txt", true))
-                            {
-                                t.BackColor = Color.White;
-                            }
+                        if (CitiesButton0.Checked) CitiesSetting = 0;
+                        else if (CitiesButton1.Checked) CitiesSetting = 1;
+                        else if (CitiesButton2.Checked) CitiesSetting = 2;
+                        Occupations = OccupationsCheckbox.Checked;
+                        Flags = FlagsCheckbox.Checked;
 
-                            await Task.Run(() =>
-                            {
-                                AdvMode.Generate(Img1, Img2, Img3, Img4, OutputDest, SelectedName, CitiesSetting, Flags, progress);
-                                // so. many. arguments. I've made a monster
-                            });
-                        }
+                        Img1 = (Bitmap)Image.FromFile(AM1txt.Text);
+                        Img2 = (Bitmap)Image.FromFile(AM2txt.Text);
+                        if (Occupations) Img3 = (Bitmap)Image.FromFile(AM3txt.Text);
+                        else Img3 = null;
+                        if (CitiesSetting == 2) Img4 = (Bitmap)Image.FromFile(AM4txt.Text);
+                        else Img4 = null;
+
+                        await Task.Run(() =>
+                        {
+                            AdvMode.Generate(Img1, Img2, Img3, Img4, OutputDest, SelectedName, CitiesSetting, Flags, progress);
+                            // so. many. arguments. I've made a monster
+                        });
                         break;
                     case 2:
-                        if (TS1txt.Text == "" || TS2txt.Text == "")
-                        {
-                            foreach (TextBox t in TerrainSwapTab.Controls.Find("txt", true))
-                            {
-                                if (t.Text == "") t.BackColor = Color.LightYellow;
-                                else t.BackColor = Color.White;
-                            }
-                            MessageBox.Show("Please provide all necessary inputs");
-                        }
-                        else
-                        {
-                            Img1 = (Bitmap)Image.FromFile(TS1txt.Text);
-                            MSO = MSOcheckbox.Checked;
-                            x = (int)Xoffset.Value; y = (int)Yoffset.Value;
-                            InputScenarioDest = TS2txt.Text;
+                        if (IsBlank(TS1txt) || IsBlank(TS2txt)) break;
+                        
+                        MSO = MSOcheckbox.Checked;
+                        x = (int)Xoffset.Value; y = (int)Yoffset.Value;
+                        InputScenarioDest = TS2txt.Text;
 
-                            foreach (TextBox t in TerrainSwapTab.Controls.Find("txt", true))
-                            {
-                                t.BackColor = Color.White;
-                            }
+                        Img1 = (Bitmap)Image.FromFile(TS1txt.Text);
 
-                            await Task.Run(() =>
-                            {
-                                TerrainSwapMode.Generate(Img1, InputScenarioDest, MSO, x, y, OutputDest, SelectedName, progress);
-                            });
-                        }
+                        await Task.Run(() =>
+                        {
+                            TerrainSwapMode.Generate(Img1, InputScenarioDest, MSO, x, y, OutputDest, SelectedName, progress);
+                        });
                         break;
                     case 3:
-                        if (MA1txt.Text == "")
-                        {
-                            foreach (TextBox t in MapArtTab.Controls.Find("txt", true))
-                            {
-                                if (t.Text == "") t.BackColor = Color.LightYellow;
-                                else t.BackColor = Color.White;
-                            }
-                            MessageBox.Show("Please provide all necessary inputs");
-                        }
-                        else
-                        {
-                            Img1 = (Bitmap)Image.FromFile(MA1txt.Text);
-                            ColorChannels = (int)Math.Pow(2, 8 - PosterizationTrackBar.Value);
+                        if (IsBlank(MA1txt)) break;
 
-                            foreach (TextBox t in MapArtTab.Controls.Find("txt", true))
-                            {
-                                t.BackColor = Color.White;
-                            }
+                        ColorChannels = (int)Math.Pow(2, 8 - PosterizationTrackBar.Value);
+                        Img1 = (Bitmap)Image.FromFile(MA1txt.Text);
 
-                            await Task.Run(() =>
-                            {
-                                MapArtMode.Generate(Img1, OutputDest, SelectedName, ColorChannels, progress);
-                            });
-                        }
+                        await Task.Run(() =>
+                        {
+                            MapArtMode.Generate(Img1, OutputDest, SelectedName, ColorChannels, progress);
+                        });
                         break;
                     case 4:
                         MessageBox.Show("You can't do that here, silly :P");
@@ -282,6 +218,17 @@ namespace AoC_Image_to_Scenario_Converter
         {
             STlabel.Text = "Special thanks to:\r\n\r\nJokuPelle for creating a wonderful space in and around this game\r\n\r\nThe AoC community for supporting this silly project over the years\r\n\nTitaniumSteel for independently coming up with the same idea \nand monopolizing the Steam forums with it, so I don't have to deal with *shudders* that";
             SecretTooltip.Active = false;
+        }
+
+        private bool IsBlank(TextBox t)
+        {
+            if (!File.Exists(t.Text))
+            {
+                MessageBox.Show("Required field is empty or invalid");
+                t.Focus();
+                return true;
+            }
+            return false;
         }
         #endregion
 
