@@ -137,11 +137,13 @@ namespace AoC_Image_to_Scenario_Converter
                 output.Close();
                 progress.Report(100);
 
+                SystemSounds.Beep.Play();
                 MessageBox.Show("Your scenario has been generated");
                 return output;
             }
             catch (Exception ex)
             {
+                SystemSounds.Beep.Play();
                 MessageBox.Show(ex.Message, "An Exception occured:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return null;
             }

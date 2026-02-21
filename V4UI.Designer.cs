@@ -758,9 +758,9 @@
             label11.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 238);
             label11.Location = new Point(90, 25);
             label11.Name = "label11";
-            label11.Size = new Size(69, 17);
+            label11.Size = new Size(37, 17);
             label11.TabIndex = 1;
-            label11.Text = "4.0.0-pre2";
+            label11.Text = "4.0.0";
             // 
             // label8
             // 

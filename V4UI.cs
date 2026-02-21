@@ -6,13 +6,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static AoC_Image_to_Scenario_Converter.ImgUtils;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Button = System.Windows.Forms.Button;
 using TextBox = System.Windows.Forms.TextBox;
-using static AoC_Image_to_Scenario_Converter.ImgUtils;
 
 namespace AoC_Image_to_Scenario_Converter
 {
@@ -56,6 +57,7 @@ namespace AoC_Image_to_Scenario_Converter
                 {
                     if (t is TextBox && t.Text == "") t.Focus();
                 }
+                SystemSounds.Hand.Play();
                 MessageBox.Show("Please provide a name and output destination");
             }
             else
@@ -91,10 +93,10 @@ namespace AoC_Image_to_Scenario_Converter
                         break;
 
                     case 1:
-                        if(IsBlank(AM1txt) || 
+                        if (IsBlank(AM1txt) ||
                            IsBlank(AM2txt) ||
-                          (IsBlank(AM3txt) && OccupationsCheckbox.Checked) ||
-                          (IsBlank(AM4txt) && CitiesButton2.Checked)) break;
+                          (OccupationsCheckbox.Checked && IsBlank(AM3txt)) ||
+                          (CitiesButton2.Checked && IsBlank(AM4txt))) break;
 
                         if (CitiesButton0.Checked) CitiesSetting = 0;
                         else if (CitiesButton1.Checked) CitiesSetting = 1;
@@ -117,7 +119,7 @@ namespace AoC_Image_to_Scenario_Converter
                         break;
                     case 2:
                         if (IsBlank(TS1txt) || IsBlank(TS2txt)) break;
-                        
+
                         MSO = MSOcheckbox.Checked;
                         x = (int)Xoffset.Value; y = (int)Yoffset.Value;
                         InputScenarioDest = TS2txt.Text;
@@ -141,6 +143,7 @@ namespace AoC_Image_to_Scenario_Converter
                         });
                         break;
                     case 4:
+                        SystemSounds.Hand.Play();
                         MessageBox.Show("You can't do that here, silly :P");
                         break;
                 }
@@ -224,6 +227,7 @@ namespace AoC_Image_to_Scenario_Converter
         {
             if (!File.Exists(t.Text))
             {
+                SystemSounds.Hand.Play();
                 MessageBox.Show("Required field is empty or invalid");
                 t.Focus();
                 return true;
@@ -236,7 +240,7 @@ namespace AoC_Image_to_Scenario_Converter
 
         private void CitySettingButton_Click(object sender, EventArgs e)
         {
-            if(CitiesButton2.Checked)
+            if (CitiesButton2.Checked)
                 AMselect4box.Visible = true;
             else
                 AMselect4box.Visible = false;

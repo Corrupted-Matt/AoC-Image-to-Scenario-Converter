@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -287,11 +288,14 @@ namespace AoC_Image_to_Scenario_Converter
                     File.Copy(Directory.GetParent(TargetScenarioPath) + "\\flagNames.txt", destination + $"\\{name}\\flagNames.txt");
                 File.WriteAllText(destination + $"\\{name}\\{name}.aoc", target.ToJsonString());
 
+
+                SystemSounds.Beep.Play();
                 MessageBox.Show("Your scenario has been generated");
                 return;
             }
             catch (Exception ex)
             {
+                SystemSounds.Beep.Play();
                 MessageBox.Show(ex.Message, "An Exception occured:", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
