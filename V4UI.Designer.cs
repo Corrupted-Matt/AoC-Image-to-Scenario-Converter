@@ -153,6 +153,7 @@
             // BasicTab
             // 
             BasicTab.BackColor = Color.Ivory;
+            BasicTab.BackgroundImage = (Image)resources.GetObject("BasicTab.BackgroundImage");
             BasicTab.Controls.Add(label2);
             BasicTab.Controls.Add(BMselect1box);
             BasicTab.Location = new Point(4, 29);
@@ -209,6 +210,7 @@
             // AdvancedTab
             // 
             AdvancedTab.BackColor = Color.FromArgb(255, 240, 240);
+            AdvancedTab.BackgroundImage = (Image)resources.GetObject("AdvancedTab.BackgroundImage");
             AdvancedTab.Controls.Add(AMselect4box);
             AdvancedTab.Controls.Add(AMsettingsbox);
             AdvancedTab.Controls.Add(AMselect3box);
@@ -259,6 +261,7 @@
             // 
             // AMsettingsbox
             // 
+            AMsettingsbox.BackColor = Color.Transparent;
             AMsettingsbox.Controls.Add(CitySettingsGroupBox);
             AMsettingsbox.Controls.Add(FlagsCheckbox);
             AMsettingsbox.Controls.Add(OccupationsCheckbox);
@@ -452,6 +455,7 @@
             // TerrainSwapTab
             // 
             TerrainSwapTab.BackColor = Color.Honeydew;
+            TerrainSwapTab.BackgroundImage = (Image)resources.GetObject("TerrainSwapTab.BackgroundImage");
             TerrainSwapTab.Controls.Add(OffsetText);
             TerrainSwapTab.Controls.Add(Yoffset);
             TerrainSwapTab.Controls.Add(Xoffset);
@@ -595,6 +599,8 @@
             // MapArtTab
             // 
             MapArtTab.BackColor = Color.FromArgb(255, 240, 255);
+            MapArtTab.BackgroundImage = (Image)resources.GetObject("MapArtTab.BackgroundImage");
+            MapArtTab.BackgroundImageLayout = ImageLayout.None;
             MapArtTab.Controls.Add(PosterizationPreviewButton);
             MapArtTab.Controls.Add(PosterizationPreviewBox);
             MapArtTab.Controls.Add(PosterizationBox);
@@ -609,16 +615,17 @@
             // PosterizationPreviewButton
             // 
             PosterizationPreviewButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            PosterizationPreviewButton.Location = new Point(620, 180);
+            PosterizationPreviewButton.Location = new Point(10, 260);
             PosterizationPreviewButton.Name = "PosterizationPreviewButton";
-            PosterizationPreviewButton.Size = new Size(159, 60);
+            PosterizationPreviewButton.Size = new Size(150, 30);
             PosterizationPreviewButton.TabIndex = 34;
-            PosterizationPreviewButton.Text = "Generate posterization preview";
+            PosterizationPreviewButton.Text = "Generate preview";
             PosterizationPreviewButton.UseVisualStyleBackColor = true;
             PosterizationPreviewButton.Click += PosterizationPreviewButton_Click;
             // 
             // PosterizationPreviewBox
             // 
+            PosterizationPreviewBox.BackColor = Color.Transparent;
             PosterizationPreviewBox.InitialImage = null;
             PosterizationPreviewBox.Location = new Point(520, 3);
             PosterizationPreviewBox.Margin = new Padding(4, 3, 4, 3);
@@ -719,6 +726,8 @@
             // 
             // InfoTab
             // 
+            InfoTab.BackColor = Color.FromArgb(240, 240, 255);
+            InfoTab.BackgroundImage = (Image)resources.GetObject("InfoTab.BackgroundImage");
             InfoTab.Controls.Add(groupBox2);
             InfoTab.Controls.Add(groupBox1);
             InfoTab.Location = new Point(4, 29);
@@ -727,10 +736,10 @@
             InfoTab.Size = new Size(876, 407);
             InfoTab.TabIndex = 4;
             InfoTab.Text = "Help & Info  ";
-            InfoTab.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
+            groupBox2.BackColor = Color.Transparent;
             groupBox2.Controls.Add(STlabel);
             groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(label8);
@@ -760,7 +769,7 @@
             label11.Name = "label11";
             label11.Size = new Size(37, 17);
             label11.TabIndex = 1;
-            label11.Text = "4.0.0";
+            label11.Text = "4.0.1";
             // 
             // label8
             // 

@@ -194,6 +194,7 @@ namespace AoC_Image_to_Scenario_Converter
             catch
             {
                 RunGameButton.Enabled = false;
+                SystemSounds.Hand.Play();
                 MessageBox.Show("No Steam installation detected");
             }
 
@@ -236,7 +237,7 @@ namespace AoC_Image_to_Scenario_Converter
         }
         #endregion
 
-        #region Advanced Mode Specific Controls
+        #region Advanced Mode Exclusive Controls
 
         private void CitySettingButton_Click(object sender, EventArgs e)
         {
@@ -302,14 +303,15 @@ namespace AoC_Image_to_Scenario_Converter
                         ]; // there's surely a better way to do this, but whatever
                 });
                 PosterizationPreviewButton.Enabled = true;
-                PosterizationPreviewButton.Text = "Generate preview";
+                PosterizationPreviewButton.Text = "Preview generated";
                 PosterizationTrackBar.Enabled = true;
                 ModeSelect.Enabled = true;
                 PosterizationPreviewBox.Image = PosterizedImages[PosterizationTrackBar.Value];
-                PosterizationPreviewButton.Visible = false;
+                PosterizationPreviewButton.Enabled = false;
             }
             else
             {
+                SystemSounds.Hand.Play();
                 MessageBox.Show("Select an image first");
             }
         }
@@ -323,7 +325,8 @@ namespace AoC_Image_to_Scenario_Converter
         private void MA1_TextChanged(object sender, EventArgs e)
         {
             PosterizedImages = null;
-            PosterizationPreviewButton.Visible = true;
+            PosterizationPreviewButton.Text = "Generate preview";
+            PosterizationPreviewButton.Enabled = true;
         }
 
         #endregion
