@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -27,7 +28,7 @@ namespace AoC_Image_to_Scenario_Converter
                 Color CurrentRGB;
                 List<int> OwnerRaw = [], OwnerValues = [], OwnerAmounts = [];
 
-                output.Write($"{{\"version\":\"4.2.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
+                output.Write($"{{\"version\":\"4.4.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
 
                 //finding unique colors and creating countires
                 for (int y = h - 1; y >= 0; y--)
@@ -45,14 +46,19 @@ namespace AoC_Image_to_Scenario_Converter
                     progress.Report((h - y) / (double)h * 15);
                 }
 
+                FileStream flags = new(destination + $"\\{name}\\flags.png", FileMode.Create);
+                GetFlags(countries).Save(flags, ImageFormat.Png);
+                flags.Close();
                 int Nsize = countries.Count;
                 foreach (int[] country in countries)
                 {
                     output.Write($"{{\"id\":{country[0]},\"name\":\"\",\"destroyed\":false,\"pos\":{{\"x\":{country[1]},\"y\":{country[2]}}}," +
-                        $"\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":50,\"flagId\":0," +
+                        $"\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":0,\"flagId\":{country[0]}," +
                         $"\"color\":{{\"r\":{(float)country[3] / 255},\"g\":{(float)country[4] / 255},\"b\":{(float)country[5] / 255},\"a\":1.0}}," +
-                        $"\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":5,\"maxArea\":0," +
-                        $"\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0,\"isUnion\":false}}");
+                        $"\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[]," +
+                        $"\"combatEfficiency\":5,\"ceLock\":false,\"maxArea\":0,\"totalWars\":0,\"lives\":[],\"aiDisabled\":false,\"stress\":0," +
+                        $"\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0,\"puppetRank\":30,\"puppetLoyalty\":0,\"isUnion\":false," +
+                        $"\"storedBns\":50,\"customBns\":0,\"tempBns\":[]}}");
                     if (country[0] < Nsize) output.Write(",");
                     progress.Report((double)country[0] / Nsize * 5 + 15);
                 }

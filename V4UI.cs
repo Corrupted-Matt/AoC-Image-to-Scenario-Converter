@@ -249,7 +249,17 @@ namespace AoC_Image_to_Scenario_Converter
 
         private void OccupationsCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            AMselect3box.Visible = OccupationsCheckbox.Checked;
+            if(OccupationsCheckbox.Checked)
+            {
+                AMselect2box.Text = "Choose De Facto Political Map";
+                AMselect3box.Visible = true;
+            }
+            else
+            {
+                AMselect2box.Text = "Choose Political Map";
+                AMselect3box.Visible = false;
+            }
+            
         }
 
         #endregion

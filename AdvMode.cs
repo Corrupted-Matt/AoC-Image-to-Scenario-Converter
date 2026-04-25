@@ -44,86 +44,247 @@ namespace AoC_Image_to_Scenario_Converter
                     OwnerRaw = [], OwnerValues = [], OwnerAmounts = [],
                     OccupationRaw = [], OccupationValues = [], OccupationAmounts = [];
 
-                output.Write($"{{\"version\":\"4.2.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
+                output.Write($"{{\"version\":\"4.4.0\",\"width\":{w},\"height\":{h},\"startingYear\":1,\"startingMonth\":0,\"currentGameTime\":0,\"nations\":[");
 
                 #region Countries
-                //finding unique colors and creating countires
-                switch (CitySetting)
+                
+                if(PoliticalDJ==null) //no occupations
                 {
-                    case 0:
-                        citycolors = [];
-                        for (int y = h - 1; y >= 0; y--)
-                        {
-                            for (int x = 0; x < w; x++)
-                            {
-                                CurrentRGB = PoliticalDF.GetPixel(x, y);
-                                if (UniqueColors.Contains(CurrentRGB) || CurrentRGB.A == 0)
-                                    continue;
-                                countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
-                                UniqueColors.Add(CurrentRGB);
-                                id++;
-                            }
-                        }
-                        break;
+                    switch (CitySetting)
+                    {
+                        case 0: //no cities
+                            citycolors = [];
 
-                    case 1:
-                        citycolors = [Color.FromArgb(255, 0, 0), Color.FromArgb(0, 255, 0), Color.FromArgb(255, 255, 0)];
-                        for (int y = h - 1; y >= 0; y--)
-                        {
-                            for (int x = 0; x < w; x++)
+                            //finding unique colors and creating countires
+                            for (int y = h - 1; y >= 0; y--)
                             {
-                                CurrentRGB = PoliticalDF.GetPixel(x, y);
-                                if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
-                                    continue;
-                                UniqueColors.Add(CurrentRGB);
-                            }
-                        }
-
-                        for (int y = h - 1; y >= 0; y--)
-                        {
-                            for (int x = 0; x < w; x++)
-                            {
-                                if (PoliticalDF.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
-                                {
-                                    CurrentRGB = FindNeighours(PoliticalDF, x, y);
-                                    countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
-                                    while (UniqueColors.Remove(CurrentRGB)) { }
-                                    id++;
-                                }
-
-                            }
-                            progress.Report((h - y) / (double)h * 15);
-                        }
-                        break;
-
-                    case 2:
-                        citycolors = [Color.FromArgb(255, 0, 0)];
-                        for (int y = h - 1; y >= 0; y--)
-                        {
-                            for (int x = 0; x < w; x++)
-                            {
-                                CurrentRGB = PoliticalDF.GetPixel(x, y);
-                                if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
-                                    continue;
-                                UniqueColors.Add(CurrentRGB);
-                            }
-                        }
-
-                        for (int y = h - 1; y >= 0; y--)
-                        {
-                            for (int x = 0; x < w; x++)
-                            {
-                                if (CityMap.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
+                                for (int x = 0; x < w; x++)
                                 {
                                     CurrentRGB = PoliticalDF.GetPixel(x, y);
-                                    countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B]);
-                                    while (UniqueColors.Remove(CurrentRGB)) { }
+                                    if (UniqueColors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                        continue;
+                                    countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B, 0]);
+                                    UniqueColors.Add(CurrentRGB);
                                     id++;
                                 }
                             }
-                            progress.Report((h - y) / (double)h * 15);
-                        }
-                        break;
+                            break;
+                        case 1: //cities in political map
+                            citycolors = [Color.FromArgb(255, 0, 0), Color.FromArgb(0, 255, 0), Color.FromArgb(255, 255, 0)];
+
+                            //finding unique colors... 
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                    if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                        continue;
+                                    UniqueColors.Add(CurrentRGB);
+                                }
+                            }
+
+                            //...and creating countires
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    if (PoliticalDF.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
+                                    {
+                                        CurrentRGB = FindNeighours(PoliticalDF, x, y);
+                                        countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B, 0]);
+                                        while (UniqueColors.Remove(CurrentRGB)) { }
+                                        id++;
+                                    }
+
+                                }
+                                progress.Report((h - y) / (double)h * 15);
+                            }
+                            break;
+                        case 2: //cities in separate file
+                            citycolors = [Color.FromArgb(255, 0, 0)];
+
+                            //finding unique colors... 
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                    if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                        continue;
+                                    UniqueColors.Add(CurrentRGB);
+                                }
+                            }
+
+                            //...and creating countires
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    if (CityMap.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
+                                    {
+                                        CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                        countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B, 0]);
+                                        while (UniqueColors.Remove(CurrentRGB)) { }
+                                        id++;
+                                    }
+                                }
+                                progress.Report((h - y) / (double)h * 15);
+                            }
+                            break;
+                    }
+                }
+                else //with occupations
+                {
+                    switch (CitySetting)
+                    {
+                        case 0: //no cities
+                            citycolors = [];
+
+                            //finding unique colors in de facto map and creating alive countires
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                    if (UniqueColors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                        continue;
+                                    countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B, 0]);
+                                    UniqueColors.Add(CurrentRGB);
+                                    id++;
+                                }
+                            }
+
+                            //finding unique colors in de jure map and creating dead countires
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    CurrentRGB = PoliticalDJ.GetPixel(x, y);
+                                    if (UniqueColors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                        continue;
+                                    countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B, 1]);
+                                    UniqueColors.Add(CurrentRGB);
+                                    id++;
+                                }
+                            }
+                            break;
+
+                        case 1: //cities in political map
+                            citycolors = [Color.FromArgb(255, 0, 0), Color.FromArgb(0, 255, 0), Color.FromArgb(255, 255, 0)];
+
+                            //finding unique colors on de facto map...
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                    if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                        continue;
+                                    UniqueColors.Add(CurrentRGB);
+                                }
+                            }
+
+                            //...and de jure map
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    CurrentRGB = PoliticalDJ.GetPixel(x, y);
+                                    if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                        continue;
+                                    UniqueColors.Add(CurrentRGB);
+                                }
+                            }
+
+                            //creating alive countries (ones that exist de facto)
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    if (PoliticalDF.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
+                                    {
+                                        CurrentRGB = FindNeighours(PoliticalDF, x, y);
+                                        countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B, 0]);
+                                        while (UniqueColors.Remove(CurrentRGB)) { }
+                                        id++;
+                                    }
+
+                                }
+                                progress.Report((h - y) / (double)h * 15);
+                            }
+
+                            //creating dead countries (ones that only exist de jure)
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    if (PoliticalDJ.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
+                                    {
+                                        CurrentRGB = FindNeighours(PoliticalDJ, x, y);
+                                        countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B, 1]);
+                                        while (UniqueColors.Remove(CurrentRGB)) { }
+                                        id++;
+                                    }
+
+                                }
+                                progress.Report((h - y) / (double)h * 15);
+                            }
+                            break;
+
+                        case 2: //cities in separate file
+                            citycolors = [Color.FromArgb(255, 0, 0)];
+
+                            //finding unique colors on de facto map...
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                    if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                        continue;
+                                    UniqueColors.Add(CurrentRGB);
+                                }
+                            }
+
+                            //...and de jure map
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    CurrentRGB = PoliticalDJ.GetPixel(x, y);
+                                    if (UniqueColors.Contains(CurrentRGB) || citycolors.Contains(CurrentRGB) || CurrentRGB.A == 0)
+                                        continue;
+                                    UniqueColors.Add(CurrentRGB);
+                                }
+                            }
+
+                            //creating countries
+                            for (int y = h - 1; y >= 0; y--)
+                            {
+                                for (int x = 0; x < w; x++)
+                                {
+                                    if (CityMap.GetPixel(x, y) == Color.FromArgb(255, 0, 0))
+                                    {
+                                        if (PoliticalDF.GetPixel(x, y) == PoliticalDJ.GetPixel(x, y)) //capital controlled rightfully - country is alive
+                                        {
+                                            CurrentRGB = PoliticalDF.GetPixel(x, y);
+                                            countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B, 0]);
+                                        }
+                                        else //capital occupied - country is dead
+                                        {
+                                            CurrentRGB = PoliticalDJ.GetPixel(x, y);
+                                            countries.Add([id, x, h - y - 1, CurrentRGB.R, CurrentRGB.G, CurrentRGB.B, 1]);
+                                        }
+                                        
+                                        while (UniqueColors.Remove(CurrentRGB)) { }
+                                        id++;
+                                    }
+                                }
+                                progress.Report((h - y) / (double)h * 15);
+                            }
+                            break;
+                    }
                 }
 
                 if (CitySetting != 0 && UniqueColors.Count != 0)
@@ -146,15 +307,20 @@ namespace AoC_Image_to_Scenario_Converter
                     F = 1;
                     FileStream flags = new(destination + $"\\{name}\\flags.png",FileMode.Create);
                     GetFlags(countries).Save(flags,ImageFormat.Png);
+                    flags.Close();
                 }
                 else F = 0;
+                string dead;
                 foreach (int[] country in countries)
                 {
-                    output.Write($"{{\"id\":{country[0]},\"name\":\"\",\"destroyed\":false,\"pos\":{{\"x\":{country[1]},\"y\":{country[2]}}}," +
-                        $"\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":50,\"flagId\":{country[0]*F}," +
+                    if (country[6]==0) dead = "false"; else dead = "true";
+                    output.Write($"{{\"id\":{country[0]},\"name\":\"\",\"destroyed\":{dead},\"pos\":{{\"x\":{country[1]},\"y\":{country[2]}}}," +
+                        $"\"originalPos\":{{\"x\":{country[1]},\"y\":{country[2]}}},\"gold\":0,\"flagId\":{country[0]*F}," +
                         $"\"color\":{{\"r\":{(float)country[3] / 255},\"g\":{(float)country[4] / 255},\"b\":{(float)country[5] / 255},\"a\":1.0}}," +
-                        $"\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[],\"combatEfficiency\":5,\"maxArea\":0," +
-                        $"\"aiDisabled\":false,\"stress\":0,\"totalWars\":0,\"lives\":[],\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0,\"isUnion\":false}}");
+                        $"\"startYear\":0,\"endYear\":0,\"killerId\":0,\"originId\":0,\"revoltIds\":[],\"killedIds\":[]," +
+                        $"\"combatEfficiency\":5,\"ceLock\":false,\"maxArea\":0,\"totalWars\":0,\"lives\":[],\"aiDisabled\":false,\"stress\":0," +
+                        $"\"liegeId\":0,\"puppetIds\":[],\"puppetIntegration\":0,\"puppetRank\":30,\"puppetLoyalty\":0,\"isUnion\":false," +
+                        $"\"storedBns\":50,\"customBns\":0,\"tempBns\":[]}}");
                     if (country[0] < Nsize) output.Write(",");
                     progress.Report((double)country[0] / Nsize * 5 + 15);
                 }
@@ -413,10 +579,23 @@ namespace AoC_Image_to_Scenario_Converter
                     {
                         for (int x = 0; x < w; x++)
                         {
-                            if (PoliticalDF.GetPixel(x, y) != PoliticalDJ.GetPixel(x, y))
-                                OccupationRaw.Add(1);
-                            else 
+                            if (PoliticalDF.GetPixel(x, y) == PoliticalDJ.GetPixel(x, y))
                                 OccupationRaw.Add(0);
+                            else
+                            {
+                                CurrentRGB = PoliticalDJ.GetPixel(x, y);
+                                foreach (int[] country in countries)
+                                {
+                                    if (country[3] == CurrentRGB.R &&
+                                        country[4] == CurrentRGB.G &&
+                                        country[5] == CurrentRGB.B)
+                                    {
+                                        OccupationRaw.Add(country[0]);
+                                        break;
+                                    }
+                                    if (country[0] == Nsize) OccupationRaw.Add(0);
+                                }
+                            }
                         }
                         progress.Report((h - y) / (double)h * 20 + 80);
                     }
@@ -447,7 +626,7 @@ namespace AoC_Image_to_Scenario_Converter
                     {
                         output.Write(a);
                         p++;
-                        if (p < Osize) output.Write(",");
+                        if (p < OCsize) output.Write(",");
                     }
                     p = 0;
 
@@ -456,7 +635,7 @@ namespace AoC_Image_to_Scenario_Converter
                     {
                         output.Write(v);
                         p++;
-                        if (p < Osize) output.Write(",");
+                        if (p < OCsize) output.Write(",");
                     }
 
                     output.Write("]},\"terrain\":[],\"owner\":[],\"history\":[]}");

@@ -26,7 +26,7 @@ namespace AoC_Image_to_Scenario_Converter
                 Color CurrentRGB;
                 List<int> TerrainRaw = [], TerrainValues = [], TerrainAmounts = [];
 
-                output.Write($"{{\"version\":\"4.2.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[],\"cities\":[],\"alliances\":[],\"wars\":[],\"terrain2\":");
+                output.Write($"{{\"version\":\"4.4.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[],\"cities\":[],\"alliances\":[],\"wars\":[],\"terrain2\":");
 
                 for (int y = h - 1; y >= 0; y--)
                 {
