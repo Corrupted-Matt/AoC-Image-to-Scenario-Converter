@@ -769,9 +769,10 @@ Most useful if you want to paint countries in your image editor of choice instea
 </value>
   </data>
   <data name="MSOtext.Text" xml:space="preserve">
-    <value>Now your new map can be bigger than the current scenario
-By default, everything in your old scenario will snap to the bottom left corner of the new map,
-use the controls below to adjust the offset relative to that corner:</value>
+    <value>By default, bottom left corners of your old scenario and the of the new map will be aligned.
+If you don't intend to change the size, leave both offsets at 0.
+Increasing the x offset moves the scenario right
+Increasing the y offset moves the scenario up</value>
   </data>
   <data name="MapArtTab.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

@@ -22,7 +22,7 @@ namespace AoC_Image_to_Scenario_Converter
         Bitmap? Img1, Img2, Img3, Img4;
         Image[]? PosterizedImages;
         string InputScenarioDest, OutputDest, SelectedName;
-        bool Flags, Occupations, MSO;
+        bool Flags, Occupations;
         int ColorChannels, CitiesSetting = 0, x, y;
 
         public V4UI()
@@ -120,7 +120,6 @@ namespace AoC_Image_to_Scenario_Converter
                     case 2:
                         if (IsBlank(TS1txt) || IsBlank(TS2txt)) break;
 
-                        MSO = MSOcheckbox.Checked;
                         x = (int)Xoffset.Value; y = (int)Yoffset.Value;
                         InputScenarioDest = TS2txt.Text;
 
@@ -128,7 +127,7 @@ namespace AoC_Image_to_Scenario_Converter
 
                         await Task.Run(() =>
                         {
-                            TerrainSwapMode.Generate(Img1, InputScenarioDest, MSO, x, y, OutputDest, SelectedName, progress);
+                            TerrainSwapMode.Generate(Img1, InputScenarioDest, x, y, OutputDest, SelectedName, progress);
                         });
                         break;
                     case 3:
@@ -278,13 +277,6 @@ namespace AoC_Image_to_Scenario_Converter
                 TS2txt.Text = ScenarioSelectDialog.FileName;
         }
 
-        private void MSOcheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            MSOtext.Visible = MSOcheckbox.Checked;
-            OffsetText.Visible = MSOcheckbox.Checked;
-            Xoffset.Visible = MSOcheckbox.Checked;
-            Yoffset.Visible = MSOcheckbox.Checked;
-        }
         #endregion
 
         #region Map Art Exclusive Controls
