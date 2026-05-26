@@ -34,11 +34,11 @@ This mode has several additional settings:
  - **Separate file**: adds another image input, where each pixel is a city and its color tells the program who the rightful owner is, with #FF0000 (red) being reserved for capitals
 
 ## Terrain Swap Mode
-Replaces terrain in a preexisting scenario according to the terrain map provided. Most useful when updating multiple scenarios using the same map.
+Replaces terrain in a preexisting scenario according to the terrain map provided. Most useful when updating multiple scenarios using the same map or for adding or removing space.
 
-To use it you only need to choose a scenario and provide a new map that needs to be at least the same size as the original. If possible, flags will be also copied over from the original scenario.
+To use it you only need to choose a scenario and provide a new map. If possible, flags will be also copied over from the original scenario.
 
-You can also use this mode to increase the size of the map by selecting "map size override" option and providing the offset from the bottom left corner, which effectively equates to the size gained in the south and west.
+You can also use this mode to increase or decrease the size of the map by providing a cropped or expanded version of the same map. You might need to set the offset from the bottom left corner, which effectively equates to the size gained or lost in the south and west - positive for adding empty space, negative for cropping. Cropping away full countries is discouraged, try removing them or moving their capitals in the editor first.
 
 ## Map Art mode
 Recreates images by placing countries of corresponding colors on a blank map. The goofiest of the bunch with limited practical use, but it's here.
