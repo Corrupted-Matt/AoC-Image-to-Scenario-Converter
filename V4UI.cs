@@ -217,9 +217,18 @@ namespace AoC_Image_to_Scenario_Converter
             });
         }
 
+        private void FlagEditorLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/3minutesafter15hours/aocflaguploader/releases",
+                UseShellExecute = true
+            });
+        }
+
         private void STlabel_Click(object sender, EventArgs e)
         {
-            STlabel.Text = "Special thanks to:\r\n\r\nJokuPelle for creating a wonderful space in and around this game\r\n\r\nThe AoC community for supporting this silly project over the years\r\n\nTitaniumSteel for independently coming up with the same idea \nand monopolizing the Steam forums with it, so I don't have to deal with *shudders* that";
+            STlabel.Text = "Special thanks to:\r\n\r\nJokuPelle for creating a wonderful space in and around this game\r\nThe AoC community for supporting this silly project over the years\nTitaniumSteel for independently coming up with the same idea \nand monopolizing the Steam forums with it, so I don't have to deal with *shudders* that";
             SecretTooltip.Active = false;
         }
 
@@ -248,7 +257,7 @@ namespace AoC_Image_to_Scenario_Converter
 
         private void OccupationsCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if(OccupationsCheckbox.Checked)
+            if (OccupationsCheckbox.Checked)
             {
                 AMselect2box.Text = "Choose De Facto Political Map";
                 AMselect3box.Visible = true;
@@ -258,7 +267,7 @@ namespace AoC_Image_to_Scenario_Converter
                 AMselect2box.Text = "Choose Political Map";
                 AMselect3box.Visible = false;
             }
-            
+
         }
 
         #endregion

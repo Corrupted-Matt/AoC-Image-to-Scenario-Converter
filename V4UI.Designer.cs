@@ -86,6 +86,7 @@
             label11 = new Label();
             label8 = new Label();
             groupBox1 = new GroupBox();
+            FlagEditorLink = new LinkLabel();
             DiscordLink = new LinkLabel();
             ReadmeLink = new LinkLabel();
             label7 = new Label();
@@ -728,9 +729,9 @@
             groupBox2.Controls.Add(STlabel);
             groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(label8);
-            groupBox2.Location = new Point(6, 162);
+            groupBox2.Location = new Point(6, 190);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(865, 239);
+            groupBox2.Size = new Size(865, 210);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "About";
@@ -741,9 +742,9 @@
             STlabel.ForeColor = SystemColors.ControlText;
             STlabel.Location = new Point(6, 92);
             STlabel.Name = "STlabel";
-            STlabel.Size = new Size(394, 85);
+            STlabel.Size = new Size(394, 68);
             STlabel.TabIndex = 2;
-            STlabel.Text = "Special thanks to:\r\n\r\nJokuPelle for creating a wonderful space in and around this game\r\n\r\nThe AoC community for supporting this silly project over the years\r\n";
+            STlabel.Text = "Special thanks to:\r\n\r\nJokuPelle for creating a wonderful space in and around this game\r\nThe AoC community for supporting this silly project over the years\r\n";
             STlabel.Click += STlabel_Click;
             // 
             // label11
@@ -754,7 +755,7 @@
             label11.Name = "label11";
             label11.Size = new Size(37, 17);
             label11.TabIndex = 1;
-            label11.Text = "4.2.0";
+            label11.Text = "4.2.1";
             // 
             // label8
             // 
@@ -767,15 +768,27 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(FlagEditorLink);
             groupBox1.Controls.Add(DiscordLink);
             groupBox1.Controls.Add(ReadmeLink);
             groupBox1.Controls.Add(label7);
             groupBox1.Location = new Point(6, 6);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(865, 150);
+            groupBox1.Size = new Size(865, 180);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Help";
+            groupBox1.Text = "Help and Resources";
+            // 
+            // FlagEditorLink
+            // 
+            FlagEditorLink.AutoSize = true;
+            FlagEditorLink.Location = new Point(410, 112);
+            FlagEditorLink.Name = "FlagEditorLink";
+            FlagEditorLink.Size = new Size(48, 17);
+            FlagEditorLink.TabIndex = 3;
+            FlagEditorLink.TabStop = true;
+            FlagEditorLink.Text = "GitHub";
+            FlagEditorLink.LinkClicked += FlagEditorLink_LinkClicked;
             // 
             // DiscordLink
             // 
@@ -805,9 +818,9 @@
             label7.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 238);
             label7.Location = new Point(6, 30);
             label7.Name = "label7";
-            label7.Size = new Size(421, 68);
+            label7.Size = new Size(529, 119);
             label7.TabIndex = 0;
-            label7.Text = "In depth guide to all coverter functions:\r\n\r\nFor bug reporting, feature requests and general questions\r\nreach out to me @corruptedmatt on the game's official discord server:";
+            label7.Text = resources.GetString("label7.Text");
             // 
             // GenerateButton
             // 
@@ -1044,5 +1057,6 @@
         private NumericUpDown Yoffset;
         private NumericUpDown Xoffset;
         private Label OffsetText;
+        private LinkLabel FlagEditorLink;
     }
 }

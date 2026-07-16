@@ -1133,6 +1133,15 @@ Increasing the y offset moves the scenario up</value>
         AAAAAAAAAABgB/8PzVw5ZqmIF/MAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>In depth guide to all coverter functions:
+
+For bug reporting, feature requests and general questions
+reach out to me @corruptedmatt on the game's official discord server:
+
+Continue editing your scenatio with Flag Image Editor by 315hours: 
+note: generated scenarios need to be opened and saved in game to ensure compatibility</value>
+  </data>
   <metadata name="PoliticalCitiesTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
