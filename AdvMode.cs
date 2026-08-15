@@ -646,7 +646,7 @@ namespace AoC_Image_to_Scenario_Converter
                 progress.Report(100);
 
                 SystemSounds.Beep.Play();
-                MessageBox.Show("Your scenario has been generated");
+                MessageBox.Show("Your scenario has been exported successfully");
                 return output;
             }
             catch (Exception ex)

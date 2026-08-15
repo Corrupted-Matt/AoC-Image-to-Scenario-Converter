@@ -241,15 +241,15 @@ namespace AoC_Image_to_Scenario_Converter
                 };
 
                 Directory.CreateDirectory(destination + $"\\{name}");
-                if (File.Exists(Directory.GetParent(TargetScenarioPath) + "flags.png"))
+                if (File.Exists(Directory.GetParent(TargetScenarioPath) + "\\flags.png"))
                     File.Copy(Directory.GetParent(TargetScenarioPath) + "\\flags.png", destination + $"\\{name}\\flags.png");
-                if (File.Exists(Directory.GetParent(TargetScenarioPath) + "flagNames.txt"))
+                if (File.Exists(Directory.GetParent(TargetScenarioPath) + "\\flagNames.txt"))
                     File.Copy(Directory.GetParent(TargetScenarioPath) + "\\flagNames.txt", destination + $"\\{name}\\flagNames.txt");
                 File.WriteAllText(destination + $"\\{name}\\{name}.aoc", target.ToJsonString());
 
 
                 SystemSounds.Beep.Play();
-                MessageBox.Show("Your scenario has been generated");
+                MessageBox.Show("Your scenario has been exported successfully");
                 return;
             }
             catch (Exception ex)

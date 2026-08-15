@@ -755,7 +755,7 @@
             label11.Name = "label11";
             label11.Size = new Size(37, 17);
             label11.TabIndex = 1;
-            label11.Text = "4.2.1";
+            label11.Text = "4.2.2";
             // 
             // label8
             // 
@@ -818,7 +818,7 @@
             label7.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 238);
             label7.Location = new Point(6, 30);
             label7.Name = "label7";
-            label7.Size = new Size(529, 119);
+            label7.Size = new Size(421, 170);
             label7.TabIndex = 0;
             label7.Text = resources.GetString("label7.Text");
             // 
@@ -829,7 +829,7 @@
             GenerateButton.Name = "GenerateButton";
             GenerateButton.Size = new Size(100, 50);
             GenerateButton.TabIndex = 2;
-            GenerateButton.Text = "Generate scenario";
+            GenerateButton.Text = "Export scenario";
             GenerateButton.UseVisualStyleBackColor = true;
             GenerateButton.Click += GenerateButton_Click;
             // 
