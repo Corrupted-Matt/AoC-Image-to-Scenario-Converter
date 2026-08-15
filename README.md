@@ -1,13 +1,18 @@
-# Disclamer: this program is NOT designed for remaking random maps you found on the internet. Don't bother me with whacky results if you attempt this.
+# AoC Image to Scenario Converter [I2SC]
 
-This is AoC image to scenario converter, a simple program to assist map and scenario makers in the Ages of Conflict community. This readme contains an in-depth guide to all functions of the program.
+This is a simple program to assist map and scenario makers in the Ages of Conflict community. This readme contains an in-depth guide to all functions of the program.
 If you have any issues or think you've found a bug, feel free to reach out to me @corruptedmatt on Discord
 
+The program is currently **only available on Windows**, and will remain that way for the foreseeable future.
+
+# Disclaimer: this program is NOT designed for remaking random maps you found on the internet. Don't bother me with whacky results if you attempt this.
+
 ## How to use:
-1. download, extract and run the program
-2. pick prefered mode (explaination of different modes and their specific options below)
-3. select input(s) and output destination (if available, the program will suggest game's default scenario folder)
-4. click "generate scenario" and await confirmation
+1. download the latest release from the [releases page](https://github.com/Corrupted-Matt/AoC-Image-to-Scenario-Converter/releases)
+2. extract and run the program
+3. pick preferred mode (explanation of different modes and their specific options below)
+4. select input(s) and output destination (if available, the program will suggest game's default scenario folder)
+5. click "export scenario" and await confirmation
 
 # Modes
 
@@ -43,7 +48,7 @@ You can also use this mode to increase or decrease the size of the map by provid
 ## Map Art mode
 Recreates images by placing countries of corresponding colors on a blank map. The goofiest of the bunch with limited practical use, but it's here.
 
-To use it you just need to selct an image, any image and press go, simple as that. 
+To use it you just need to select an image, any image and press go, simple as that. 
 
 The program also has a built in posterizer (color reduction) so you can sacrifice some quality for faster generation and more of a chance of actually running whatever abominations you choose to create.
 
