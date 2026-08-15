@@ -49,11 +49,9 @@ namespace AoC_Image_to_Scenario_Converter
 
 
                         int ox = (int)target["nations"].AsArray()[n]["originalPos"]["x"];
-                        x += Xoffset;
                         target["nations"].AsArray()[n]["originalPos"]["x"] = x;
 
                         int oy = (int)target["nations"].AsArray()[n]["originalPos"]["y"];
-                        y += Yoffset;
                         target["nations"].AsArray()[n]["originalPos"]["y"] = y;
 
                         progress.Report((double)n / nationCount * 20);
