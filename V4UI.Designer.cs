@@ -755,7 +755,7 @@
             label11.Name = "label11";
             label11.Size = new Size(37, 17);
             label11.TabIndex = 1;
-            label11.Text = "4.2.3";
+            label11.Text = "4.2.4";
             // 
             // label8
             // 

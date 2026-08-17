@@ -402,7 +402,7 @@ namespace AoC_Image_to_Scenario_Converter
                                 if (CurrentRGB.A != 0)
                                     foreach (int[] country in countries)
                                     {
-                                        if (CurrentRGB == Color.FromArgb(country[3], country[4], country[5]))
+                                        if (CurrentRGB == Color.FromArgb(country[3]*255, country[4]*255, country[5]* 255))
                                         {
                                             mem += $"{{\"x\":{x},\"y\":{h - y - 1},\"n\":\"\",\"r\":{country[0]},\"rp\":0}},";
                                             break;
