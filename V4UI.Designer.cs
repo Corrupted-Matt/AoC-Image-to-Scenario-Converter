@@ -82,10 +82,13 @@
             MA1txt = new TextBox();
             InfoTab = new TabPage();
             groupBox2 = new GroupBox();
+            label18 = new Label();
             STlabel = new Label();
             label11 = new Label();
             label8 = new Label();
             groupBox1 = new GroupBox();
+            ScenarioEditorLink = new LinkLabel();
+            label22 = new Label();
             FlagEditorLink = new LinkLabel();
             DiscordLink = new LinkLabel();
             ReadmeLink = new LinkLabel();
@@ -726,25 +729,35 @@
             // groupBox2
             // 
             groupBox2.BackColor = Color.Transparent;
+            groupBox2.Controls.Add(label18);
             groupBox2.Controls.Add(STlabel);
             groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(label8);
-            groupBox2.Location = new Point(6, 190);
+            groupBox2.Location = new Point(6, 279);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(865, 210);
+            groupBox2.Size = new Size(865, 125);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "About";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(270, 20);
+            label18.Name = "label18";
+            label18.Size = new Size(109, 17);
+            label18.TabIndex = 3;
+            label18.Text = "Special thanks to:";
             // 
             // STlabel
             // 
             STlabel.AutoSize = true;
             STlabel.ForeColor = SystemColors.ControlText;
-            STlabel.Location = new Point(6, 92);
+            STlabel.Location = new Point(270, 45);
             STlabel.Name = "STlabel";
-            STlabel.Size = new Size(394, 68);
+            STlabel.Size = new Size(394, 34);
             STlabel.TabIndex = 2;
-            STlabel.Text = "Special thanks to:\r\n\r\nJokuPelle for creating a wonderful space in and around this game\r\nThe AoC community for supporting this silly project over the years\r\n";
+            STlabel.Text = "JokuPelle for creating a wonderful space in and around this game\r\nThe AoC community for supporting this silly project over the years";
             STlabel.Click += STlabel_Click;
             // 
             // label11
@@ -755,7 +768,7 @@
             label11.Name = "label11";
             label11.Size = new Size(37, 17);
             label11.TabIndex = 1;
-            label11.Text = "4.2.3";
+            label11.Text = "4.2.4";
             // 
             // label8
             // 
@@ -768,21 +781,46 @@
             // 
             // groupBox1
             // 
+            groupBox1.BackColor = Color.Transparent;
+            groupBox1.Controls.Add(ScenarioEditorLink);
+            groupBox1.Controls.Add(label22);
             groupBox1.Controls.Add(FlagEditorLink);
             groupBox1.Controls.Add(DiscordLink);
             groupBox1.Controls.Add(ReadmeLink);
             groupBox1.Controls.Add(label7);
             groupBox1.Location = new Point(6, 6);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(865, 180);
+            groupBox1.Size = new Size(865, 270);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Help and Resources";
             // 
+            // ScenarioEditorLink
+            // 
+            ScenarioEditorLink.AutoSize = true;
+            ScenarioEditorLink.Location = new Point(255, 149);
+            ScenarioEditorLink.Name = "ScenarioEditorLink";
+            ScenarioEditorLink.Size = new Size(48, 17);
+            ScenarioEditorLink.TabIndex = 27;
+            ScenarioEditorLink.TabStop = true;
+            ScenarioEditorLink.Text = "GitHub";
+            ScenarioEditorLink.LinkClicked += ScenarioEditorLink_LinkClicked;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 238);
+            label22.ForeColor = SystemColors.ControlDarkDark;
+            label22.Location = new Point(6, 205);
+            label22.Name = "label22";
+            label22.Size = new Size(246, 26);
+            label22.TabIndex = 26;
+            label22.Text = "note: generated scenarios need to be opened \r\nand saved in game to ensure compatibility";
+            // 
             // FlagEditorLink
             // 
             FlagEditorLink.AutoSize = true;
-            FlagEditorLink.Location = new Point(410, 112);
+            FlagEditorLink.Location = new Point(255, 183);
             FlagEditorLink.Name = "FlagEditorLink";
             FlagEditorLink.Size = new Size(48, 17);
             FlagEditorLink.TabIndex = 3;
@@ -1058,5 +1096,8 @@
         private NumericUpDown Xoffset;
         private Label OffsetText;
         private LinkLabel FlagEditorLink;
+        private Label label18;
+        private LinkLabel ScenarioEditorLink;
+        private Label label22;
     }
 }

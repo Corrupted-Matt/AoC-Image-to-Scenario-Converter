@@ -28,7 +28,7 @@ namespace AoC_Image_to_Scenario_Converter
                 Color CurrentRGB;
                 List<int> OwnerRaw = [], OwnerValues = [], OwnerAmounts = [];
 
-                output.Write($"{{\"version\":\"4.4.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"currentGameTime\":0,\"nations\":[");
+                output.Write($"{{\"version\":\"4.4.0\",\"width\":{w},\"height\":{h},\"startingYear\":0,\"startingMonth\":0,\"currentGameTime\":0,\"nations\":[");
 
                 //finding unique colors and creating countires
                 for (int y = h - 1; y >= 0; y--)

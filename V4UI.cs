@@ -68,9 +68,9 @@ namespace AoC_Image_to_Scenario_Converter
                 if (MessageBox.Show("A save/scenario with this name already exists, do you wish to overwrite it?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.No)
                     return;
                 else
-                    Directory.Delete(OutputDest + $"\\{SelectedName}",true);
-            }   
-            
+                    Directory.Delete(OutputDest + $"\\{SelectedName}", true);
+            }
+
             GenerateButton.Enabled = false;
             GenerateButton.Text = "Exporting...";
             ProgressBar.Visible = true;
@@ -221,6 +221,15 @@ namespace AoC_Image_to_Scenario_Converter
             Process.Start(new ProcessStartInfo
             {
                 FileName = "https://discord.gg/fv3EExm6KY",
+                UseShellExecute = true
+            });
+        }
+
+        private void ScenarioEditorLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/Corrupted-Matt/AoC-Advanced-Scenario-Editor/releases",
                 UseShellExecute = true
             });
         }
